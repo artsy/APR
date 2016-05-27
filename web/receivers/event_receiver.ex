@@ -15,6 +15,7 @@ defmodule Apr.EventReceiver do
   end
 
   def acceptable_message?(message) do
+    IEx.pry
     try do
       Poison.decode!(message)
         |> is_map
