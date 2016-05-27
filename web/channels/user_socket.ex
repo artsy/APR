@@ -3,8 +3,8 @@ defmodule Apr.UserSocket do
 
   ## Channels
   # channel "rooms:*", Apr.RoomChannel
-  channel "subscriptions:*", Apr.SubscriptionChannel
-  channel "users:*", Apr.UserChannel
+  channel "subscriptions", Apr.SubscriptionChannel
+  channel "users", Apr.UserChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

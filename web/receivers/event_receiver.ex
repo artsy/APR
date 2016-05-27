@@ -1,5 +1,3 @@
-require IEx
-
 defmodule Apr.EventReceiver do
   require Logger
 
@@ -10,12 +8,11 @@ defmodule Apr.EventReceiver do
     for message <- KafkaEx.stream(channel, 0, worker_name: String.to_atom(channel)), acceptable_message?(message.value) do
       proccessed_message = process_message message
       # broadcast a message to a channel
-      Endpoint.broadcast("#{channel}:", proccessed_message.verb, proccessed_message)
+      Endpoint.broadcast("#{channel}", proccessed_message["verb"], proccessed_message)
     end
   end
 
   def acceptable_message?(message) do
-    IEx.pry
     try do
       Poison.decode!(message)
         |> is_map
