@@ -52,21 +52,30 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 // from connect if you don't care about authentication.
 
 socket.connect()
+let moment = require('moment')
+let messagesContainer = $("#messages")
 
 // Now that you are connected, you can join channels with a topic:
 let subscriptionChannel = socket.channel("subscriptions", {})
 subscriptionChannel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
-
-let moment = require('moment')
-let messagesContainer = $("#messages")
 subscriptionChannel.on("activated", payload => {
-  console.log(payload.subject.display)
-  console.log(payload.object.display)
-  console.log(payload.verb)
-  let newItem = $(`<li class="news-item">${moment().format("LT")}: ${payload.subject.display}</a> ${payload.verb} <a href=${payload.object.id}>${payload.object.display} (${payload.object.root_type})</a></li>`)
+  let newItem = $(`<li class="news-item">${moment().format("LT")}: ${payload.subject.display}</a> ${payload.verb} ${payload.object.root_type} for <a href=${payload.properties.partner.id}>${payload.properties.partner.name}</a></li>`)
   newItem.prependTo(messages).hide().slideDown()
 })
+
+let usersChannel = socket.channel("users", {})
+usersChannel.join()
+  .receive("ok", resp => { console.log("Joined successfully", resp) })
+  .receive("error", resp => { console.log("Unable to join", resp) })
+
+usersChannel.on("followed", payload => {
+  console.log(payload)
+  let newItem = $(`<li class="news-item">${moment().format("LT")}: ${payload.subject.display}</a> ${payload.verb} <a href=${payload.properties.artist.id}>${payload.properties.artist.name}</a></li>`)
+  newItem.prependTo(messages).hide().slideDown()
+})
+
+
 
 export default socket

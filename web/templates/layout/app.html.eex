@@ -8,6 +8,7 @@
     <meta name="author" content="">
 
     <title>APR: Artsy Public Radio!</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
     <link rel="icon" href="<%= static_path(@conn, "/assets/favicon.ico") %>">
   </head>
