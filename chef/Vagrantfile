@@ -2,8 +2,6 @@
 # vi: set ft=ruby :
 #
 
-require 'pathname'
-
 VAGRANTFILE_API_VERSION = '2'
 
 Vagrant.require_version '>= 1.5.0'
@@ -36,7 +34,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
    end
 
    vb.vm.hostname = "apr.artsy"
-   vb.vm.synced_folder Pathname.new("..").expand_path, "/home/deploy/apr/current"
 
      vb.vm.provision "chef_zero" do |chef|
 
