@@ -3,7 +3,6 @@ include_recipe "artsy_base::default"
 include_recipe "#{cookbook_name}::elixir"
 
 include_recipe "nodejs::npm"
-nodejs_npm "brunch"
 
 apt_repository 'nginx' do
   uri          'ppa:nginx/stable'

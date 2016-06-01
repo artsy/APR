@@ -1,3 +1,5 @@
+default[:application_name] = "apr"
+
 # nodejs
 override['nodejs']['version'] = '6.2.0'
 override['nodejs']['install_method'] = 'binary'
