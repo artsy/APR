@@ -78,7 +78,11 @@ supervisor_service node[:application_name] do
   directory deploy_target
   command command
   stdout_logfile "/var/log/supervisor/#{node[:application_name]}.out"
+  stdout_logfile_maxbytes '50MB'
+  stdout_logfile_backups 5
   stderr_logfile "/var/log/supervisor/#{node[:application_name]}.err"
+  stderr_logfile_maxbytes '50MB'
+  stderr_logfile_backups 5
   autorestart true
   environment environment
 end
