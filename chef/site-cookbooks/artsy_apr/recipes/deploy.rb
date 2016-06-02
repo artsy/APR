@@ -25,20 +25,32 @@ environment = {
   "HEX_HOME" => "/home/deploy/.hex"
 }
 
-execute "get-mix-deps" do
-  command "yes | mix deps.get"
+execute "get-hex" do
+  command "mix local.hex --force"
   user deploy_user
   environment environment
   cwd deploy_target
-  returns [0, 137]
+end
+
+execute "get-rebar" do
+  command "mix local.rebar --force"
+  user deploy_user
+  environment environment
+  cwd deploy_target
+end
+
+execute "get-mix-deps" do
+  command "mix deps.get"
+  user deploy_user
+  environment environment
+  cwd deploy_target
 end
 
 execute "compile-mix-deps" do
-  command "yes | mix compile"
+  command "mix compile"
   user deploy_user
   environment environment
   cwd deploy_target
-  returns [0, 137]
 end
 
 execute "install-npm-packages" do
