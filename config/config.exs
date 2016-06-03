@@ -21,7 +21,9 @@ config :logger, :console,
 
 
 config :kafka_ex,
-  brokers: [{System.get_env("KAFKA_BROKER_HOST"), System.get_env("KAFKA_BROKER_PORT")}],
+  brokers: System.get_env("KAFKA_BROKERS_HOST") # expected to be comma separated list of broker_host:port
+            |> String.split(",")
+            |> Enum.map(fn(broker)-> List.to_tuple(String.split(broker, ":")) end ),
   consumer_group: System.get_env("KAFKA_CONSUMER_GROUP"),
   disable_default_worker: true,
   sync_timeout: 1000 #Timeout used synchronous requests from kafka. Defaults to 1000ms.
