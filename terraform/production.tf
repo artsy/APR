@@ -58,7 +58,7 @@ resource "aws_elb" "apr-production-http" {
         instance_port      = 80
         instance_protocol  = "tcp"
         lb_port            = 80
-        lb_protocol        = "http"
+        lb_protocol        = "tcp"
     }
 
     health_check {
