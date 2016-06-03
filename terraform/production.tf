@@ -69,6 +69,8 @@ resource "aws_elb" "apr-production-http" {
         timeout             = 10
     }
 
+    internal                = true
+
 }
 
 resource "aws_proxy_protocol_policy" "apr-production-http-proxy-protocol" {
