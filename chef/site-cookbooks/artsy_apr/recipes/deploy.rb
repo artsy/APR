@@ -29,7 +29,9 @@ environment = {
   "MIX_ENV" => application_env,
   "MIX_HOME" => "/home/deploy/.mix",
   "MIX_ARCHIVES" => "/home/deploy/.mix/archives",
-  "HEX_HOME" => "/home/deploy/.hex"
+  "HEX_HOME" => "/home/deploy/.hex",
+  "USER" => deploy_user,
+  "HOME" => "/home/#{deploy_user}"
 }
 
 unless configuration["environment"].nil?
