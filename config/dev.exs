@@ -27,6 +27,12 @@ config :apr, Apr.Endpoint,
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
 
+config :the_app, :basic_auth, [
+  realm: "Admin Area",
+  username: "sample",
+  password: "sample"
+]
+
 # Set a higher stacktrace during development.
 # Do not configure such in production as keeping
 # and calculating stacktraces is usually expensive.

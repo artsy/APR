@@ -21,7 +21,8 @@ config :logger, :console,
 
 
 config :kafka_ex,
-  brokers: System.get_env("KAFKA_BROKERS") # expected to be comma separated list of broker_host:port
+  # expected to be comma separated list of broker_host:port
+  brokers: System.get_env("KAFKA_BROKERS") || "192.168.1.0:9092"
             |> String.split(",")
             |> Enum.map(fn(broker)-> List.to_tuple(String.split(broker, ":")) end ),
   consumer_group: System.get_env("KAFKA_CONSUMER_GROUP"),

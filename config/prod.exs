@@ -16,6 +16,13 @@ config :apr, Apr.Endpoint,
   url: [host: "example.com", port: 80],
   cache_static_manifest: "priv/static/manifest.json"
 
+
+config :the_app, :basic_auth, [
+  realm: "Admin Area",
+  username: System.get_env("BASIC_AUTH_USER"),
+  password: System.get_env("BASIC_AUTH_PASSWORD")
+]
+
 # Do not print debug messages in production
 config :logger, level: :info
 
