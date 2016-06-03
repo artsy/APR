@@ -1,7 +1,7 @@
 defmodule Apr.PageController do
   use Apr.Web, :controller
 
-  plug BasicAuth, realm: "Admin Area", username: "admin", password: "secret"
+  plug BasicAuth, Application.get_env(:the_app, :basic_auth)
 
   def index(conn, _params) do
     render conn, "index.html"
