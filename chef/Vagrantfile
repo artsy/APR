@@ -41,13 +41,26 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
        chef.cookbooks_path = "."
        chef.nodes_path = "./nodes"
-       chef.data_bags_path = "./data_bags"
+
        chef.json = {
         :environment => "development",
         :citadel => {
           :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
-          :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
-          :bucket => ENV['CITADEL_BUCKET']
+          :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+        },
+        :artsy => {
+          :config => {
+            :apr => {
+              :deployment => {
+                :repo => "git@github.com:artsy/apr.git",
+                :branch => "master"
+              },
+              :environment => {
+                "KAFKA_BROKERS": "ec2-52-201-17-104.compute-1.amazonaws.com:9092",
+                "KAFKA_CONSUMER_GROUP": "apr-development-#{ENV['USER']}"
+              }
+            }
+          }
         }
        }
 

@@ -1,8 +1,15 @@
 deploy_user = "deploy"
 deploy_target = "/home/#{deploy_user}/current"
+application_name = node[:application_name]
+configuration = node["artsy"]["config"][application_name]
 
-deploy 'apr' do
-  repo 'git@github.com:artsy/apr.git'
+include_recipe "citadel::default"
+
+secrets = citadel["#{node[:application_name]}/#{node['environment']}"]
+
+deploy application_name do
+  repo configuration["deployment"]["repo"]
+  branch configuration["deployment"]["branch"]
   user deploy_user
   deploy_to "/home/#{deploy_user}"
   action :deploy
@@ -24,6 +31,13 @@ environment = {
   "MIX_ARCHIVES" => "/home/deploy/.mix/archives",
   "HEX_HOME" => "/home/deploy/.hex"
 }
+
+unless configuration["environment"].nil?
+  environment.merge! configuration["environment"]
+end
+unless secrets["application"]["environment"].nil?
+  environment.merge! secrets["application"]["environment"]
+end
 
 execute "get-hex" do
   command "mix local.hex --force"
@@ -73,14 +87,14 @@ end
 
 command = "mix phoenix.server"
 
-supervisor_service node[:application_name] do
+supervisor_service application_name do
   user deploy_user
   directory deploy_target
   command command
-  stdout_logfile "/var/log/supervisor/#{node[:application_name]}.out"
+  stdout_logfile "/var/log/supervisor/#{application_name}.out"
   stdout_logfile_maxbytes '50MB'
   stdout_logfile_backups 5
-  stderr_logfile "/var/log/supervisor/#{node[:application_name]}.err"
+  stderr_logfile "/var/log/supervisor/#{application_name}.err"
   stderr_logfile_maxbytes '50MB'
   stderr_logfile_backups 5
   autorestart true
