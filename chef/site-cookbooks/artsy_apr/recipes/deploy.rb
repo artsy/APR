@@ -29,23 +29,15 @@ environment = {
   "MIX_ENV" => application_env,
   "MIX_HOME" => "/home/deploy/.mix",
   "MIX_ARCHIVES" => "/home/deploy/.mix/archives",
-  "HEX_HOME" => "/home/deploy/.hex",
-  "USER" => deploy_user,
-  "HOME" => "/home/#{deploy_user}"
+  "HEX_HOME" => "/home/deploy/.hex"
 }
-
-unless configuration["environment"].nil?
-  environment.merge! configuration["environment"]
-end
-unless secrets["application"]["environment"].nil?
-  environment.merge! secrets["application"]["environment"]
-end
 
 execute "get-hex" do
   command "mix local.hex --force"
   user deploy_user
   environment environment
   cwd deploy_target
+  not_if { ::File.directory?("/home/deploy/.hex") }
 end
 
 execute "get-rebar" do
@@ -53,6 +45,7 @@ execute "get-rebar" do
   user deploy_user
   environment environment
   cwd deploy_target
+  not_if { ::File.exists?("/home/deploy/.mix/rebar") }
 end
 
 execute "get-mix-deps" do
@@ -88,6 +81,20 @@ execute "phoenix-digest" do
 end
 
 command = "mix phoenix.server"
+
+runtime_env_vars = {
+  "USER" => deploy_user,
+  "HOME" => "/home/#{deploy_user}"
+}
+
+environment.merge! runtime_env_vars
+
+unless configuration["environment"].nil?
+  environment.merge! configuration["environment"]
+end
+unless secrets["application"]["environment"].nil?
+  environment.merge! secrets["application"]["environment"]
+end
 
 supervisor_service application_name do
   user deploy_user
