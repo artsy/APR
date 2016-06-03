@@ -15,7 +15,7 @@ resource "aws_opsworks_stack" "apr-production" {
     custom_json = "${file("${path.module}/production.json")}"
     custom_cookbooks_source = {
       type = "s3"
-      url = "https://s3.amazonaws.com/artsy-cookbooks/apr-cookbooks-package.tgz"
+      url = "https://s3.amazonaws.com/artsy-cookbooks/apr-cookbooks-production.tgz"
     }
 }
 
@@ -68,6 +68,8 @@ resource "aws_elb" "apr-production-http" {
         target              = "TCP:80"
         timeout             = 10
     }
+
+    internal                = true
 
 }
 
