@@ -27,7 +27,7 @@ config :kafka_ex,
               |> Enum.map(fn(b) -> String.split(b, ":") 
                                     |> List.update_at(1, &(String.to_integer(&1))) 
                                     |> List.to_tuple end),#[{"192.168.99.100", 9092}],
-  consumer_group: "kafka_ex",
+  consumer_group: System.get_env("KAFKA_CONSUMER_GROUP") || "kafka_ex",
   disable_default_worker: true,
   sync_timeout: 1000 #Timeout used synchronous requests from kafka. Defaults to 1000ms.
 
