@@ -69,7 +69,7 @@ resource "aws_elb" "apr-production-http" {
         timeout             = 10
     }
 
-    internal                = true
+    internal                = false
 
 }
 
