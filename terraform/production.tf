@@ -77,3 +77,13 @@ resource "aws_proxy_protocol_policy" "apr-production-http-proxy-protocol" {
   load_balancer = "${aws_elb.apr-production-http.name}"
   instance_ports = ["80"]
 }
+
+resource "aws_opsworks_instance" "apr-production-backend" {
+  stack_id = "${aws_opsworks_stack.apr-production.id}"
+  layer_ids = [
+    "${aws_opsworks_custom_layer.apr-backend.id}",
+  ]
+  instance_type = "t2.small"
+  state         = "running"
+
+}
