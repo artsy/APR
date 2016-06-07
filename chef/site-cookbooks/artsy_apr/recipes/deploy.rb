@@ -14,6 +14,7 @@ deploy application_name do
   deploy_to "/home/#{deploy_user}"
   action :deploy
   ssh_wrapper "/home/deploy/wrap-ssh4git.sh"
+  notifies :restart, "supervisor_service[#{application_name}]"
 end
 
 application_env = case node['environment']
@@ -26,24 +27,20 @@ when "development"
 end
 
 environment = {
+  "USER" => deploy_user,
+  "HOME" => "/home/#{deploy_user}",
   "MIX_ENV" => application_env,
   "MIX_HOME" => "/home/deploy/.mix",
   "MIX_ARCHIVES" => "/home/deploy/.mix/archives",
   "HEX_HOME" => "/home/deploy/.hex"
 }
 
-unless configuration["environment"].nil?
-  environment.merge! configuration["environment"]
-end
-unless secrets["application"]["environment"].nil?
-  environment.merge! secrets["application"]["environment"]
-end
-
 execute "get-hex" do
   command "mix local.hex --force"
   user deploy_user
   environment environment
   cwd deploy_target
+  not_if { ::File.directory?("/home/deploy/.hex") }
 end
 
 execute "get-rebar" do
@@ -51,6 +48,7 @@ execute "get-rebar" do
   user deploy_user
   environment environment
   cwd deploy_target
+  not_if { ::File.exists?("/home/deploy/.mix/rebar") }
 end
 
 execute "get-mix-deps" do
@@ -85,10 +83,20 @@ execute "phoenix-digest" do
   cwd deploy_target
 end
 
-command = "mix phoenix.server"
+command = "su - deploy -c 'cd #{deploy_target} && mix phoenix.server'"
+
+runtime_environment = Hash.new
+runtime_environment.merge! environment
+
+unless configuration["environment"].nil?
+  runtime_environment.merge! configuration["environment"]
+end
+unless secrets["application"]["environment"].nil?
+  runtime_environment.merge! secrets["application"]["environment"]
+end
 
 supervisor_service application_name do
-  user deploy_user
+  user "root"
   directory deploy_target
   command command
   stdout_logfile "/var/log/supervisor/#{application_name}.out"
@@ -98,5 +106,5 @@ supervisor_service application_name do
   stderr_logfile_maxbytes '50MB'
   stderr_logfile_backups 5
   autorestart true
-  environment environment
+  environment runtime_environment
 end

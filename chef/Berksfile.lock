@@ -50,7 +50,7 @@ GRAPH
     windows (>= 1.2.2)
   supervisor (0.4.12)
     python (>= 0.0.0)
-  windows (1.42.0)
+  windows (1.43.0)
     chef_handler (>= 0.0.0)
   yum (3.11.0)
   yum-epel (0.7.0)
