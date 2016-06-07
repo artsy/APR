@@ -21,10 +21,13 @@ config :logger, :console,
 
 
 config :kafka_ex,
-  brokers: System.get_env("KAFKA_BROKERS") # expected to be comma separated list of broker_host:port
-            |> String.split(",")
-            |> Enum.map(fn(broker)-> List.to_tuple(String.split(broker, ":")) end ),
-  consumer_group: System.get_env("KAFKA_CONSUMER_GROUP"),
+  # expected to be comma separated list of broker_host:port
+  brokers: System.get_env("KAFKA_BROKERS") ||  "192.168.99.100:9092"
+              |> String.split(",") 
+              |> Enum.map(fn(b) -> String.split(b, ":") 
+                                    |> List.update_at(1, &(String.to_integer(&1))) 
+                                    |> List.to_tuple end),#[{"192.168.99.100", 9092}],
+  consumer_group: System.get_env("KAFKA_CONSUMER_GROUP") || "kafka_ex",
   disable_default_worker: true,
   sync_timeout: 1000 #Timeout used synchronous requests from kafka. Defaults to 1000ms.
 
