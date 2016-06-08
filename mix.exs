@@ -34,6 +34,7 @@ defmodule Apr.Mixfile do
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
      {:kafka_ex, "~> 0.5.0"},
-     {:basic_auth, "~> 1.0.0"}]
+     {:basic_auth, "~> 1.0.0"},
+     {:exrm, "~> 0.18.1"}]
   end
 end
