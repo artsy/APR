@@ -58,10 +58,20 @@ execute "get-mix-deps" do
   cwd deploy_target
 end
 
+runtime_environment = Hash.new
+runtime_environment.merge! environment
+
+unless configuration["environment"].nil?
+  runtime_environment.merge! configuration["environment"]
+end
+unless secrets["application"]["environment"].nil?
+  runtime_environment.merge! secrets["application"]["environment"]
+end
+
 execute "compile-mix-deps" do
   command "mix compile"
   user deploy_user
-  environment environment
+  environment runtime_environment
   cwd deploy_target
 end
 
@@ -79,24 +89,14 @@ end
 execute "phoenix-digest" do
   command "mix phoenix.digest"
   user deploy_user
-  environment environment
+  environment runtime_environment
   cwd deploy_target
 end
 
-command = "su - deploy -c 'cd #{deploy_target} && mix phoenix.server'"
-
-runtime_environment = Hash.new
-runtime_environment.merge! environment
-
-unless configuration["environment"].nil?
-  runtime_environment.merge! configuration["environment"]
-end
-unless secrets["application"]["environment"].nil?
-  runtime_environment.merge! secrets["application"]["environment"]
-end
+command = 'mix phoenix.server'
 
 supervisor_service application_name do
-  user "root"
+  user deploy_user
   directory deploy_target
   command command
   stdout_logfile "/var/log/supervisor/#{application_name}.out"

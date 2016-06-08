@@ -69,6 +69,8 @@ resource "aws_elb" "apr-production-http" {
         timeout             = 10
     }
 
+    depends_on              = ["aws_opsworks_stack.apr-production"]
+
 }
 
 resource "aws_proxy_protocol_policy" "apr-production-http-proxy-protocol" {
@@ -81,7 +83,7 @@ resource "aws_opsworks_instance" "apr-production-backend" {
   layer_ids = [
     "${aws_opsworks_custom_layer.apr-backend.id}",
   ]
-  instance_type = "t2.small"
+  instance_type = "t2.medium"
   state         = "running"
 
 }
