@@ -13,8 +13,9 @@ use Mix.Config
 # which you typically run after static files are built.
 config :apr, Apr.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [host: "example.com", port: 80],
-  cache_static_manifest: "priv/static/manifest.json"
+  url: [host: "apr.artsy.net", port: 80],
+  cache_static_manifest: "priv/static/manifest.json",
+  server: true
 
 
 config :apr, :basic_auth, [
@@ -25,6 +26,12 @@ config :apr, :basic_auth, [
 
 # Do not print debug messages in production
 config :logger, level: :info
+
+config :kafka_ex,
+  brokers: [{"ec2-52-201-17-104.compute-1.amazonaws.com", 9092}],
+  consumer_group: System.get_env("KAFKA_CONSUMER_GROUP") || "kafka_ex",
+  disable_default_worker: true,
+  sync_timeout: 1000 #Timeout used synchronous requests from kafka. Defaults to 1000ms.
 
 # ## SSL Support
 #

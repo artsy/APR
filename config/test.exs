@@ -8,3 +8,9 @@ config :apr, Apr.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+config :kafka_ex,
+  brokers: [{"localhost", 9092}],
+  consumer_group: System.get_env("KAFKA_CONSUMER_GROUP") || "kafka_ex",
+  disable_default_worker: true,
+  sync_timeout: 1000 #Timeout used synchronous requests from kafka. Defaults to 1000ms.
