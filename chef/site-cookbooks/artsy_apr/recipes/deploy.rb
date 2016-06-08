@@ -48,7 +48,7 @@ execute "get-rebar" do
   user deploy_user
   environment environment
   cwd deploy_target
-  not_if { ::File.exists?("/home/deploy/.mix/rebar") }
+  not_if { ::File.exist?("/home/deploy/.mix/rebar") }
 end
 
 execute "get-mix-deps" do
