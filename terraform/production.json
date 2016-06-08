@@ -9,7 +9,7 @@
         },
         "environment": {
           "KAFKA_CONSUMER_GROUP": "apr-production",
-          "PORT": 4000
+          "PORT": "4000"
         }
       }
     }
