@@ -83,7 +83,7 @@ resource "aws_opsworks_instance" "apr-production-backend" {
   layer_ids = [
     "${aws_opsworks_custom_layer.apr-backend.id}",
   ]
-  instance_type = "t2.medium"
+  instance_type = "t2.small"
   state         = "running"
 
 }
