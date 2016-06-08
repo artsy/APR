@@ -8,7 +8,6 @@
           "branch": "master"
         },
         "environment": {
-          "KAFKA_BROKERS": "ec2-52-201-17-104.compute-1.amazonaws.com:9092",
           "KAFKA_CONSUMER_GROUP": "apr-production",
           "PORT": 4000
         }
