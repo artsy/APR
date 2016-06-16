@@ -55,7 +55,7 @@ socket.connect()
 let moment = require('moment')
 let messagesContainer = $("#messages")
 let artistFollowCheckbox = $('#show-follow-artist')
-let subscriptionCheckbox = $('#show-subscritpions')
+let subscriptionCheckbox = $('#show-subscriptions')
 
 // Now that you are connected, you can join channels with a topic:
 let subscriptionChannel = socket.channel("subscriptions", {})

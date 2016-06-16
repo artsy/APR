@@ -1,6 +1,6 @@
 <div class="main-area">
   <div class="filter-section">
-    <label><input type="checkbox" id="show-subscritpions" checked> <%= gettext "Subscriptions" %> </label>
+    <label><input type="checkbox" id="show-subscriptions" checked> <%= gettext "Subscriptions" %> </label>
     <label><input type="checkbox" id="show-follow-artist" checked> <%= gettext "Artist Follow" %> </label>
   </div>
   <ul id="messages"></ul>
