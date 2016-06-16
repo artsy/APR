@@ -32,7 +32,7 @@ form.link, form.button {
   background-size: 100px 35px;
 }
 
-.filter-seciton {
+.filter-section {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
