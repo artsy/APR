@@ -32,6 +32,11 @@ form.link, form.button {
   background-size: 100px 35px;
 }
 
+.filter-seciton {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
 /* Customize container */
 @media (min-width: 768px) {
   .container {

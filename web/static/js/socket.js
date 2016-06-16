@@ -54,6 +54,8 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 socket.connect()
 let moment = require('moment')
 let messagesContainer = $("#messages")
+let artistFollowCheckbox = $('#show-follow-artist')
+let subscriptionCheckbox = $('#show-subscritpions')
 
 // Now that you are connected, you can join channels with a topic:
 let subscriptionChannel = socket.channel("subscriptions", {})
@@ -61,8 +63,10 @@ subscriptionChannel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
 subscriptionChannel.on("activated", payload => {
-  let newItem = $(`<li class="news-item">${moment().format("LT")}: ${payload.subject.display}</a> ${payload.verb} ${payload.object.root_type} for <a href=${payload.properties.partner.id}>${payload.properties.partner.name}</a></li>`)
-  newItem.prependTo(messages).hide().slideDown()
+  if (subscriptionCheckbox.is(':checked')) {
+    let newItem = $(`<li class="news-item">${moment().format("LT")}: ${payload.subject.display}</a> ${payload.verb} ${payload.object.root_type} for <a href=${payload.properties.partner.id}>${payload.properties.partner.name}</a></li>`)
+    newItem.prependTo(messages).hide().slideDown()
+  }
 })
 
 let usersChannel = socket.channel("users", {})
@@ -71,9 +75,10 @@ usersChannel.join()
   .receive("error", resp => { console.log("Unable to join", resp) })
 
 usersChannel.on("followed", payload => {
-  console.log(payload)
-  let newItem = $(`<li class="news-item">${moment().format("LT")}: ${payload.subject.display}</a> ${payload.verb} <a href=${payload.properties.artist.id}>${payload.properties.artist.name}</a></li>`)
-  newItem.prependTo(messages).hide().slideDown()
+  if (artistFollowCheckbox.is(':checked')) {
+    let newItem = $(`<li class="news-item">${moment().format("LT")}: ${payload.subject.display}</a> ${payload.verb} <a href="http://artsy.net/artist/${payload.properties.artist.id}" target='_blank'>${payload.properties.artist.name}</a></li>`)
+    newItem.prependTo(messages).hide().slideDown()
+  }
 })
 
 
