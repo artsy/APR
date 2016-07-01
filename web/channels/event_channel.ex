@@ -1,4 +1,4 @@
-defmodule Apr.UserChannel do
+defmodule Apr.EventChannel do
   use Phoenix.Channel
 
   def join(topic, _message, socket) do
