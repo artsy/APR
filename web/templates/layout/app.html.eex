@@ -9,6 +9,7 @@
 
     <title>APR: Artsy Public Radio!</title>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
     <link rel="icon" href="<%= static_path(@conn, "/assets/favicon.ico") %>">
   </head>
@@ -16,20 +17,14 @@
   <body>
     <div class="container">
       <header class="header">
-        <nav class="navbar">
           <div class="container-fluid">
-            <div class="navbar-header">
-              <span class="logo"></span>
-            </div>
-            <ul class="nav navbar-nav navbar-right">
-              <li><h4>Artsy Public Radio</h4></li>
-            </ul>
+            <span class="logo"></span>
+            <span class="pull-right">
+              <h4>Artsy Public Radio</h4>
+            </span>
           </div>
         </nav>
       </header>
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-
       <main role="main">
         <%= render @view_module, @view_template, assigns %>
       </main>
