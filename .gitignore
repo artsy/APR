@@ -28,6 +28,7 @@ erl_crash.dump
 
 # Berkshelf
 berks-cookbooks
+tmp
 
 # Vagrant
 .vagrant
