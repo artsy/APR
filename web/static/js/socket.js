@@ -45,7 +45,7 @@ inquiriesChannel.join()
 
 inquiriesChannel.on("inquired", payload => {
   if (inquiriesCheckbox.is(':checked')) {
-    let newItem = $(`<li class="news-item"><i class="fa fa-heart" aria-hidden="true"></i>${moment().format("LT")}: ${payload.subject.display}</a> ${payload.verb} <a href="http://artsy.net/artwork/${payload.properties.inquireable.id}" target='_blank'>${payload.properties.inquireable.name}</a></li>`)
+    let newItem = $(`<li class="news-item"><i class="fa fa-bell" aria-hidden="true"></i>${moment().format("LT")}: ${payload.subject.display}</a> ${payload.verb} <a href="http://artsy.net/artwork/${payload.properties.inquireable.id}" target='_blank'>${payload.properties.inquireable.name}</a></li>`)
     newItem.prependTo(messages).hide().slideDown()
   }
 })
