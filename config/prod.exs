@@ -17,7 +17,6 @@ config :apr, Apr.Endpoint,
   cache_static_manifest: "priv/static/manifest.json",
   server: true
 
-
 config :apr, :basic_auth, [
   realm: "Admin Area",
   username: System.get_env("BASIC_AUTH_USER"),

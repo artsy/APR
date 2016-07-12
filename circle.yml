@@ -1,0 +1,12 @@
+dependencies:
+  pre:
+    - sudo pip install --upgrade awscli==1.10.20
+    - ci/prepare.sh
+  cache_directories:
+    - ~/dependencies
+    - ~/.mix
+    - deps
+
+test:
+  override:
+    - ci/tests.sh
