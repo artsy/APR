@@ -12,7 +12,8 @@ defmodule Apr do
       # Here you could define other workers and supervisors as children
       # worker(Apr.Worker, [arg1, arg2, arg3]),
       worker(Task, [Apr.EventReceiver, :start_link, ["users"]], id: :users),
-      worker(Task, [Apr.EventReceiver, :start_link, ["subscriptions"]], id: :subscriptions)
+      worker(Task, [Apr.EventReceiver, :start_link, ["subscriptions"]], id: :subscriptions),
+      worker(Task, [Apr.EventReceiver, :start_link, ["inquiries"]], id: :inquiries),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
