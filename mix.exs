@@ -17,7 +17,7 @@ defmodule Apr.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Apr, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext, :kafka_ex]]
+     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext, :kafka_ex, :basic_auth]]
   end
 
   # Specifies which paths to compile per environment.
