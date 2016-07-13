@@ -14,11 +14,13 @@ if [ ! -e /usr/local/bin/elixir ]; then
   sudo apt-get install elixir
 fi
 
+export MIX_ENV=$APR_RELEASE_ENVIRONMENT
+
 # Install package tools
 if [ ! -e $HOME/.mix/rebar ]; then
   mix local.hex --force
   mix local.rebar --force
 fi
 
+# Fetch dependencies before CircleCI infers an npm install from our package.json
 mix deps.get
-mix deps.compile

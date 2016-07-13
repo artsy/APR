@@ -2,6 +2,8 @@
 
 set -e
 
+cd $HOME/$CIRCLE_PROJECT_REPONAME
+
 # Generate a release for the given environment
 export MIX_ENV=$APR_RELEASE_ENVIRONMENT
 
