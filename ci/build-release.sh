@@ -2,18 +2,8 @@
 
 set -e
 
-export PATH="$HOME/dependencies/erlang/bin:$HOME/dependencies/elixir/bin:$PATH"
-
 # Generate a release for the given environment
 export MIX_ENV=$APR_RELEASE_ENVIRONMENT
-
-# Fetch and compile dependencies
-cd $HOME/$CIRCLE_PROJECT_REPONAME
-
-mix deps.get
-mix deps.compile
-
-npm install
 
 # Set compile-time environment vars - secrets here should be injected from CircleCI configuration
 export BASIC_AUTH_USER=$APR_BASIC_AUTH_USER

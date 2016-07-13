@@ -19,3 +19,6 @@ if [ ! -e $HOME/.mix/rebar ]; then
   mix local.hex --force
   mix local.rebar --force
 fi
+
+mix deps.get
+mix deps.compile
