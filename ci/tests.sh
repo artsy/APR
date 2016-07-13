@@ -1,4 +1,3 @@
 #!/bin/bash
 
-mix test
-exit 0
+MIX_ENV=test mix test
