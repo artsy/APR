@@ -11,7 +11,7 @@ if [ ! -e /usr/local/bin/elixir ]; then
   sudo rm -rf /etc/rc2.d/K80couchdb
 
   sudo apt-get install esl-erlang
-  sudo apt-get install elixr
+  sudo apt-get install elixir
 fi
 
 # Install package tools
