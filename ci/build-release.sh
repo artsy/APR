@@ -23,7 +23,7 @@ mix release
 RELEASE_BUNDLE=apr-$APR_RELEASE_ENVIRONMENT-$CIRCLE_SHA1.tgz
 tar cvzf $RELEASE_BUNDLE rel
 aws s3 cp $RELEASE_BUNDLE s3://artsy-deploy/apr/$RELEASE_BUNDLE
-aws s3 cp $RELEASE_BUNDLE s3://artsy-deploy/apr/latest
+aws s3 cp $RELEASE_BUNDLE s3://artsy-deploy/apr/latest.tgz
 
 # clean up
 rm -rf _build/ && rm -rf rel/
