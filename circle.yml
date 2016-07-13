@@ -6,9 +6,9 @@ dependencies:
     - ~/dependencies
     - ~/.mix
     - deps
-# test:
-#   override:
-#     - ./ci/tests.sh
+test:
+  override:
+    - ./ci/tests.sh
 deployment:
   production:
     branch: master
