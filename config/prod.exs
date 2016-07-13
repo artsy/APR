@@ -27,7 +27,7 @@ config :apr, :basic_auth, [
 config :logger, level: :info
 
 config :kafka_ex,
-  brokers: [{"ec2-52-201-17-104.compute-1.amazonaws.com", 9092}, {"ec2-54-174-98-55.compute-1.amazonaws.com", 9092}],
+  brokers: [{"ec2-52-201-17-104.compute-1.amazonaws.com", 9092}, {"ec2-54-237-173-186.compute-1.amazonaws.com", 9092}],
   consumer_group: System.get_env("KAFKA_CONSUMER_GROUP") || "kafka_ex",
   disable_default_worker: true,
   sync_timeout: 1000 #Timeout used synchronous requests from kafka. Defaults to 1000ms.
