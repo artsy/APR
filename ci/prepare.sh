@@ -10,8 +10,8 @@ if [ ! -e /usr/local/bin/elixir ]; then
   # Workaround, otherwise apt-get install esl-erlang fails
   sudo rm -rf /etc/rc2.d/K80couchdb
 
-  sudo apt-get install esl-erlang
-  sudo apt-get install elixir
+  sudo apt-get install esl-erlang=1:18.3
+  sudo apt-get install elixir=1.2.4-1
 fi
 
 export MIX_ENV=$APR_RELEASE_ENVIRONMENT
