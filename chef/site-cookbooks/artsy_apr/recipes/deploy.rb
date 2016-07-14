@@ -3,21 +3,14 @@ deploy_target = "/home/#{deploy_user}/current"
 application_name = node[:application_name]
 configuration = node["artsy"]["config"][application_name]
 
-### BEGIN DEPLOY
-
 include_recipe "citadel::default"
+secrets = citadel["#{application_name}/#{node['environment']}"]
+
+### BEGIN DEPLOY
 
 directory '/home/deploy/releases' do
   user 'deploy'
   group 'deploy'
-end
-
-if node['environment'] == "development"
-  aws_access_key_id = node['citadel']['access_key_id']
-  aws_secret_access_key = node['citadel']['secret_access_key']
-else
-  aws_access_key_id = nil
-  aws_secret_access_key = nil
 end
 
 timestamp = ::Time.now.strftime('%Y%m%d%H%M%S%L')
@@ -25,8 +18,8 @@ timestamp = ::Time.now.strftime('%Y%m%d%H%M%S%L')
 aws_s3_file '/tmp/apr.tgz' do
   bucket 'artsy-deploy'
   remote_path 'apr/latest.tgz'
-  aws_access_key_id aws_access_key_id
-  aws_secret_access_key aws_secret_access_key
+  aws_access_key_id secrets['credentials']['aws_access_key_id']
+  aws_secret_access_key secrets['credentials']['aws_secret_access_key']
   owner deploy_user
   notifies :create, "directory[/home/deploy/releases/#{timestamp}]", :immediately
   notifies :restart, "supervisor_service[#{application_name}]", :delayed
