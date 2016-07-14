@@ -10,6 +10,12 @@ cd $HOME/$CIRCLE_PROJECT_REPONAME
 export BASIC_AUTH_USER=$APR_BASIC_AUTH_USER
 export BASIC_AUTH_PASSWORD=$APR_BASIC_AUTH_PASSWORD
 
+# Clean npm and reinstall with babel-preset explicitly cached (otherwise brunch will fail to build)
+npm cache clean
+rm -rf node_modules
+npm install
+npm install --save-dev babel-preset-es2015
+
 # Compile application code
 mix compile
 node node_modules/brunch/bin/brunch build --production
