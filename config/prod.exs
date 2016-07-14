@@ -15,7 +15,8 @@ config :apr, Apr.Endpoint,
   http: [port: {:system, "PORT"}],
   url: [host: "apr.artsy.net", port: 80],
   cache_static_manifest: "priv/static/manifest.json",
-  server: true
+  server: true,
+  root: "."
 
 config :apr, :basic_auth, [
   realm: "Admin Area",
