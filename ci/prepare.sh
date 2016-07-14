@@ -16,7 +16,7 @@ sudo rm -rf /etc/rc2.d/K80couchdb
 sudo apt-get install esl-erlang=$ERLANG_VERSION
 sudo apt-get install elixir=$ELIXIR_VERSION
 
-export MIX_ENV=$APR_RELEASE_ENVIRONMENT
+export MIX_ENV=prod
 
 mix local.hex --force
 mix local.rebar --force
