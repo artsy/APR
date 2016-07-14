@@ -3,13 +3,8 @@
   "artsy": {
     "config": {
       "apr": {
-        "deployment": {
-          "repo": "git@github.com:artsy/apr.git",
-          "branch": "master"
-        },
         "environment": {
-          "KAFKA_CONSUMER_GROUP": "apr-production",
-          "PORT": "4000"
+          "KAFKA_CONSUMER_GROUP": "apr-production"
         }
       }
     }

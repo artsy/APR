@@ -14,5 +14,10 @@ execute "update-apt-erlang" do
   action :nothing
 end
 
-package "esl-erlang"
-package "elixir"
+package "esl-erlang" do
+  version node[:apr][:erlang_version]
+end
+
+package "elixir" do
+  version node[:apr][:elixir_version]
+end
