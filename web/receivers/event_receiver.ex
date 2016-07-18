@@ -1,4 +1,3 @@
-require IEx
 defmodule Apr.EventReceiver do
   require Logger
 
@@ -14,7 +13,6 @@ defmodule Apr.EventReceiver do
   end
 
   def latest_offset(channel) do
-    IEx.pry
     KafkaEx.latest_offset(channel, 0)
       |> List.first
       |> Map.get(:partition_offsets)
