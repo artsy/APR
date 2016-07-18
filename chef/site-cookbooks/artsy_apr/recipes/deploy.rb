@@ -4,64 +4,96 @@ application_name = node[:application_name]
 configuration = node["artsy"]["config"][application_name]
 
 include_recipe "citadel::default"
-secrets = citadel["#{application_name}/#{node['environment']}"]
 
-### BEGIN DEPLOY
+secrets = citadel["#{node[:application_name]}/#{node['environment']}"]
 
-directory '/home/deploy/releases' do
-  user 'deploy'
-  group 'deploy'
+deploy application_name do
+  repo configuration["deployment"]["repo"]
+  branch configuration["deployment"]["branch"]
+  user deploy_user
+  deploy_to "/home/#{deploy_user}"
+  action :deploy
+  ssh_wrapper "/home/deploy/wrap-ssh4git.sh"
+  notifies :restart, "supervisor_service[#{application_name}]"
 end
 
-timestamp = ::Time.now.strftime('%Y%m%d%H%M%S%L')
-
-aws_s3_file '/tmp/apr.tgz' do
-  bucket 'artsy-deploy'
-  remote_path 'apr/latest.tgz'
-  aws_access_key_id secrets['credentials']['aws_access_key_id']
-  aws_secret_access_key secrets['credentials']['aws_secret_access_key']
-  owner deploy_user
-  notifies :create, "directory[/home/deploy/releases/#{timestamp}]", :immediately
-  notifies :restart, "supervisor_service[#{application_name}]", :delayed
+application_env = case node['environment']
+when "production"
+  "prod"
+when "staging"
+  "stage"
+when "development"
+  "dev"
 end
-
-directory "/home/deploy/releases/#{timestamp}" do
-  user 'deploy'
-  group 'deploy'
-  action :nothing
-  notifies :run, 'execute[unpack-release]', :immediately
-end
-
-execute 'unpack-release' do
-  command "tar xvzf /tmp/apr.tgz -C /home/deploy/releases/#{timestamp}"
-  action :nothing
-  notifies :run, 'execute[chown-release]', :immediately
-end
-
-execute 'chown-release' do
-  command "chown -R #{deploy_user} /home/deploy/releases/#{timestamp}"
-  action :nothing
-  notifies :create, "link[#{deploy_target}]", :immediately
-end
-
-link deploy_target do
-  to "/home/deploy/releases/#{timestamp}"
-  action :nothing
-end
-
-### END DEPLOY
 
 environment = {
   "USER" => deploy_user,
   "HOME" => "/home/#{deploy_user}",
-  "PORT" => "4000"
+  "MIX_ENV" => application_env,
+  "MIX_HOME" => "/home/deploy/.mix",
+  "MIX_ARCHIVES" => "/home/deploy/.mix/archives",
+  "HEX_HOME" => "/home/deploy/.hex"
 }
 
-unless configuration["environment"].nil?
-  environment.merge! configuration["environment"]
+execute "get-hex" do
+  command "mix local.hex --force"
+  user deploy_user
+  environment environment
+  cwd deploy_target
+  not_if { ::File.directory?("/home/deploy/.hex") }
 end
 
-command = '/bin/sh ./rel/apr/bin/apr foreground'
+execute "get-rebar" do
+  command "mix local.rebar --force"
+  user deploy_user
+  environment environment
+  cwd deploy_target
+  not_if { ::File.exist?("/home/deploy/.mix/rebar") }
+end
+
+execute "get-mix-deps" do
+  command "mix deps.get"
+  user deploy_user
+  environment environment
+  cwd deploy_target
+end
+
+runtime_environment = Hash.new
+runtime_environment.merge! environment
+
+unless configuration["environment"].nil?
+  runtime_environment.merge! configuration["environment"]
+end
+unless secrets["application"]["environment"].nil?
+  runtime_environment.merge! secrets["application"]["environment"]
+end
+
+execute "compile-mix-deps" do
+  command "mix compile"
+  user deploy_user
+  environment runtime_environment
+  cwd deploy_target
+end
+
+execute "install-npm-packages" do
+  command "npm install"
+  cwd deploy_target
+end
+
+execute "brunch-build" do
+  command "node node_modules/brunch/bin/brunch build --production"
+  user deploy_user
+  cwd deploy_target
+end
+
+execute "phoenix-digest" do
+  command "mix phoenix.digest"
+  user deploy_user
+  environment runtime_environment
+  cwd deploy_target
+end
+
+command = 'mix phoenix.server'
 
 supervisor_service application_name do
   user deploy_user
@@ -74,5 +106,5 @@ supervisor_service application_name do
   stderr_logfile_maxbytes '50MB'
   stderr_logfile_backups 5
   autorestart true
-  environment environment
+  environment runtime_environment
 end
