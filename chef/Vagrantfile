@@ -51,7 +51,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         :artsy => {
           :config => {
             :apr => {
+              :deployment => {
+                :repo => "git@github.com:artsy/apr.git",
+                :branch => "master"
+              },
               :environment => {
+                "KAFKA_BROKERS": "ec2-52-201-17-104.compute-1.amazonaws.com:9092",
                 "KAFKA_CONSUMER_GROUP": "apr-development-#{ENV['USER']}"
               }
             }
