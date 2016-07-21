@@ -47,6 +47,13 @@ form.link, form.button {
   list-style-type: none;
 }
 
+.subject-name {
+  text-transform: capitalize;
+}
+.verb {
+  font-style: italic;
+}
+
 .fa {
   margin-right: 5px;
 }
