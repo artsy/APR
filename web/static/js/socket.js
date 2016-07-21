@@ -21,7 +21,7 @@ subscriptionChannel.join()
   .receive("error", resp => { console.log("Unable to join", resp) })
 subscriptionChannel.on("activated", payload => {
   if (subscriptionCheckbox.is(':checked')) {
-    let newItem = $(`<li class="news-item"><i class="fa fa-star-o" aria-hidden="true"></i>${moment().format("LT")}: ${payload.subject.display}</a> ${payload.verb} ${payload.object.root_type} for <a href=${payload.properties.partner.id}>${payload.properties.partner.name}</a></li>`)
+    let newItem = $(`<li class="news-item"><i class="fa fa-star-o" aria-hidden="true"></i>${moment().format("LT")}: <span class="subject-name">${payload.subject.display}</span> <span class="verb">${payload.verb}</span> ${payload.object.root_type} for <a href=${payload.properties.partner.id}>${payload.properties.partner.name}</a></li>`)
     newItem.prependTo(messages).hide().slideDown()
   }
 })
@@ -33,7 +33,7 @@ usersChannel.join()
 
 usersChannel.on("followed", payload => {
   if (artistFollowCheckbox.is(':checked')) {
-    let newItem = $(`<li class="news-item"><i class="fa fa-heart" aria-hidden="true"></i>${moment().format("LT")}: ${payload.subject.display}</a> ${payload.verb} <a href="http://artsy.net/artist/${payload.properties.artist.id}" target='_blank'>${payload.properties.artist.name}</a></li>`)
+    let newItem = $(`<li class="news-item"><i class="fa fa-heart" aria-hidden="true"></i>${moment().format("LT")}: <span class="subject-name">${payload.subject.display.split(" ", 1)}</span> <span class="verb">${payload.verb}</span> <a href="http://artsy.net/artist/${payload.properties.artist.id}" target='_blank'>${payload.properties.artist.name}</a></li>`)
     newItem.prependTo(messages).hide().slideDown()
   }
 })
@@ -45,7 +45,7 @@ inquiriesChannel.join()
 
 inquiriesChannel.on("inquired", payload => {
   if (inquiriesCheckbox.is(':checked')) {
-    let newItem = $(`<li class="news-item"><i class="fa fa-bell" aria-hidden="true"></i>${moment().format("LT")}: ${payload.subject.display}</a> ${payload.verb} <a href="http://artsy.net/artwork/${payload.properties.inquireable.id}" target='_blank'>${payload.properties.inquireable.name}</a></li>`)
+    let newItem = $(`<li class="news-item"><i class="fa fa-bell" aria-hidden="true"></i>${moment().format("LT")}: <span class="subject-name">${payload.subject.display.split(" ", 1)}</span> <span class="verb">${payload.verb}</span> <a href="http://artsy.net/artwork/${payload.properties.inquireable.id}" target='_blank'>${payload.properties.inquireable.name}</a></li>`)
     newItem.prependTo(messages).hide().slideDown()
   }
 })
