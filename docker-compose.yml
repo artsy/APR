@@ -2,10 +2,10 @@ web:
   build: .
   command: mix phoenix.server
   environment:
-    PORT: 80
+    PORT: 8081
   volumes:
   - .:/app
   ports:
-  - "80:80"
+  - "8081:8081"
   volumes:
   - .:/app
