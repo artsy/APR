@@ -7,7 +7,7 @@ use Mix.Config
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
 config :apr, Apr.Endpoint,
-  http: [port: 4000],
+  http: [port: System.get_env("PORT") || 4000],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
@@ -39,7 +39,7 @@ config :apr, :basic_auth, [
 config :phoenix, :stacktrace_depth, 20
 
 config :kafka_ex,
-  brokers: [{"192.168.99.100", 9092}],
-  consumer_group: System.get_env("KAFKA_CONSUMER_GROUP") || "kafka_ex",
-  disable_default_worker: true,
+  brokers: [{"ip-10-0-0-49.ec2.internal", 9092}, {"ip-10-0-0-248.ec2.internal", 9092}],
+  consumer_group: System.get_env("KAFKA_CONSUMER_GROUP") || "kafka_ex_local_#{System.get_env("USER")}",
+  disable_default_worker: false,
   sync_timeout: 1000 #Timeout used synchronous requests from kafka. Defaults to 1000ms.
