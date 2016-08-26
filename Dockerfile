@@ -19,5 +19,5 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - && apt-get up
 ADD . /app
 WORKDIR /app
 ENV PORT 8081
-ENV MIX_ENV production
+ENV MIX_ENV prod
 CMD mix phoenix.server
