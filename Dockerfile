@@ -22,4 +22,8 @@ WORKDIR /app
 ENV PORT 8081
 ENV MIX_ENV prod
 RUN mix deps.get
+RUN mix compile
+RUN npm install
+RUN node node_modules/brunch/bin/brunch build --production
+RUN mix phoenix.digest
 CMD mix phoenix.server
