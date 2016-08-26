@@ -1,6 +1,7 @@
 FROM elixir
 
 RUN mix local.hex --force
+RUN mix local.rebar --force
 
 ENV PHOENIX_VERSION 1.2.0
 
@@ -20,4 +21,5 @@ ADD . /app
 WORKDIR /app
 ENV PORT 8081
 ENV MIX_ENV prod
+RUN mix deps.get
 CMD mix phoenix.server
