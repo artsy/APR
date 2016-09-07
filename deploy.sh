@@ -19,13 +19,14 @@ push_ecr_image(){
 rolling_update(){
   curl -O https://storage.googleapis.com/kubernetes-release/release/v1.3.3/bin/linux/amd64/kubectl
   chmod +x kubectl
-  mv kubectl /usr/local/bin/
+  sudo mv kubectl /usr/local/bin/
 
   mkdir ~/.kube
   aws s3 cp s3://artsy-citadel/k8s/config ~/.kube/config
 
   /usr/local/bin/kubectl config use-context production
   /usr/local/bin/kubectl rolling-update apr --image=$AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/apr:$CIRCLE_SHA1
+  rm -rf ~/.kube
 }
 
 configure_aws_cli
