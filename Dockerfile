@@ -1,5 +1,8 @@
 FROM elixir
 
+ARG BASIC_AUTH_USER
+ARG BASIC_AUTH_PASSWORD
+
 RUN mix local.hex --force
 RUN mix local.rebar --force
 
