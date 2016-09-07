@@ -18,7 +18,7 @@ spec:
       name: apr
     spec:
       containers:
-      - image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/apr:latest
+      - image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/apr:6337b32ce71e38831b1d680436a5e3e128b6fe82
         imagePullPolicy: Always
         name: apr
         env:
