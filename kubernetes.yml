@@ -18,7 +18,7 @@ spec:
       name: apr
     spec:
       containers:
-      - image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/apr:dbfffa33a052b65a6821ae801d5ecc69064e0e80
+      - image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/apr:latest
         imagePullPolicy: Always
         name: apr
         env:
@@ -57,9 +57,9 @@ metadata:
 spec:
   ports:
   - port: 80
+    nodePort: 30101
     protocol: TCP
-    targetPort: 4000
   selector:
     app: apr
   sessionAffinity: None
-  type: LoadBalancer
+  type: NodePort
