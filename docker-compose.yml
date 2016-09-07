@@ -1,11 +1,11 @@
 web:
   build: .
-  command: mix phoenix.server
+  command: service nginx start && mix phoenix.server
   environment:
-    PORT: 8081
+    PORT: 4000
   volumes:
   - .:/app
   ports:
-  - "8081:8081"
+  - "80:80"
   volumes:
   - .:/app
