@@ -4,7 +4,7 @@ machine:
 
 dependencies:
   override:
-    - docker build -t $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/apr:$CIRCLE_SHA1 .
+    - docker build --build-arg BASIC_AUTH_USER=$BASIC_AUTH_USER --build-arg BASIC_AUTH_PASSWORD=$BASIC_AUTH_PASSWORD -t $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/apr:$CIRCLE_SHA1 .
 
 test:
   override:

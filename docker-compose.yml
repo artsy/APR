@@ -2,10 +2,7 @@ web:
   build: .
   command: service nginx start && mix phoenix.server
   environment:
-    - PORT: 4000
-    - BASIC_AUTH_USER
-    - BASIC_AUTH_PASSWORD
-    - KAFKA_CONSUMER_GROUP
+    PORT: 4000
   volumes:
   - .:/app
   ports:
