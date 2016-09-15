@@ -18,26 +18,16 @@ spec:
       name: apr
     spec:
       containers:
-      - image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/apr:6337b32ce71e38831b1d680436a5e3e128b6fe82
+      - image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/apr:latest
         imagePullPolicy: Always
         name: apr
         env:
-        - name: BASIC_AUTH_USER
-          valueFrom:
-            secretKeyRef:
-              name: apr-production-credentials
-              key: username
-        - name: BASIC_AUTH_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: apr-production-credentials
-              key: password
         - name: PORT
           value: "4000"
-        - name: KAFKA_CONSUMER_GROUP
-          value: apr-production
         - name: MIX_ENV
           value: prod
+        - name: KAFKA_SEED_BROKER
+          value: kafka-0.stg.artsy.systems
         resources: {}
         securityContext:
           privileged: false

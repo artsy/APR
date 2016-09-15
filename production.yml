@@ -1,0 +1,55 @@
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  generation: 1
+  labels:
+    app: apr
+  name: apr
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    app: apr
+  template:
+    metadata:
+      labels:
+        app: apr
+      name: apr
+    spec:
+      containers:
+      - image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/apr:latest
+        imagePullPolicy: Always
+        name: apr
+        env:
+        - name: PORT
+          value: "4000"
+        - name: MIX_ENV
+          value: prod
+        - name: KAFKA_SEED_BROKER
+          value: kafka-0.prd.artsy.systems
+        resources: {}
+        securityContext:
+          privileged: false
+        terminationMessagePath: /dev/termination-log
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: apr
+  name: apr
+  namespace: default
+spec:
+  ports:
+  - port: 80
+    nodePort: 30101
+    protocol: TCP
+  selector:
+    app: apr
+  sessionAffinity: None
+  type: NodePort
