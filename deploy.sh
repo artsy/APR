@@ -25,7 +25,8 @@ rolling_update(){
   aws s3 cp s3://artsy-citadel/k8s/config ~/.kube/config
 
   /usr/local/bin/kubectl config use-context production
-  /usr/local/bin/kubectl rolling-update apr --image=$AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/apr:$CIRCLE_SHA1
+  /usr/local/bin/kubectl set image deployment/apr apr=$AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/apr:$CIRCLE_SHA1
+
   rm -rf ~/.kube
 }
 
