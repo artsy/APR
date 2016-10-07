@@ -1,51 +1,27 @@
 ---
-apiVersion: v1
-kind: ReplicationController
+apiVersion: extensions/v1beta1
+kind: Deployment
 metadata:
-  generation: 1
-  labels:
-    app: apr
   name: apr
-  namespace: default
 spec:
   replicas: 1
-  selector:
-    app: apr
   template:
     metadata:
       labels:
         app: apr
       name: apr
+      namespace: default
     spec:
       containers:
-      - image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/apr:6337b32ce71e38831b1d680436a5e3e128b6fe82
-        imagePullPolicy: Always
-        name: apr
+      - name: apr
+        image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/apr:4df6fdfad3ee67f0b1c604cf42d4d54e21c6c5a9
         env:
-        - name: BASIC_AUTH_USER
-          valueFrom:
-            secretKeyRef:
-              name: apr-production-credentials
-              key: username
-        - name: BASIC_AUTH_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: apr-production-credentials
-              key: password
         - name: PORT
           value: "4000"
-        - name: KAFKA_CONSUMER_GROUP
-          value: apr-production
         - name: MIX_ENV
           value: prod
-        resources: {}
-        securityContext:
-          privileged: false
-        terminationMessagePath: /dev/termination-log
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      securityContext: {}
-      terminationGracePeriodSeconds: 30
+        ports:
+        - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
