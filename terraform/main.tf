@@ -1,6 +1,6 @@
 provider "aws" {}
 
-resource "terraform_remote_state" "infrastructure" {
+data "terraform_remote_state" "infrastructure" {
     backend = "s3"
     config {
         bucket = "artsy-terraform"
@@ -9,7 +9,7 @@ resource "terraform_remote_state" "infrastructure" {
     }
 }
 
-resource "terraform_remote_state" "substance" {
+data "terraform_remote_state" "substance" {
     backend = "s3"
     config {
         bucket = "artsy-terraform"
