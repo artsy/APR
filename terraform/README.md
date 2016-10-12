@@ -1,6 +1,6 @@
 # Terraform
 
-Install Terraform >= v0.6.16
+Install Terraform >= v0.7.5
 
 - Put your user AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in your ~/.bash_profile. And source it (`source ~/.bash_profile`).  It should look something like:
 

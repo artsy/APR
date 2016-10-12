@@ -1,21 +1,21 @@
 resource "aws_elb" "apr-production-k8s" {
     name                        = "apr-production-k8s"
     subnets                     = [
-                                    "${terraform_remote_state.infrastructure.output.vpc_production_public_subnet_1b_id}",
-                                    "${terraform_remote_state.infrastructure.output.vpc_production_public_subnet_1c_id}",
-                                    "${terraform_remote_state.infrastructure.output.vpc_production_public_subnet_1d_id}",
-                                    "${terraform_remote_state.infrastructure.output.vpc_production_public_subnet_1e_id}"
+                                    "${data.terraform_remote_state.infrastructure.vpc_production_public_subnet_1b_id}",
+                                    "${data.terraform_remote_state.infrastructure.vpc_production_public_subnet_1c_id}",
+                                    "${data.terraform_remote_state.infrastructure.vpc_production_public_subnet_1d_id}",
+                                    "${data.terraform_remote_state.infrastructure.vpc_production_public_subnet_1e_id}"
                                   ]
     cross_zone_load_balancing   = true
     idle_timeout                = 60
     connection_draining         = true
     connection_draining_timeout = 60
     security_groups             = [
-                                    "${terraform_remote_state.infrastructure.output.vpc_production_default_sg_id}",
-                                    "${terraform_remote_state.infrastructure.output.production-elb-security-group}"
+                                    "${data.terraform_remote_state.infrastructure.vpc_production_default_sg_id}",
+                                    "${data.terraform_remote_state.infrastructure.production-elb-security-group}"
                                   ]
 
-    instances = ["${split(",", terraform_remote_state.substance.output.vpc_production_k8s_node_ids)}"]
+    instances = ["${split(",", join(",", data.terraform_remote_state.substance.vpc_production_k8s_node_ids))}"]
 
     listener {
         lb_port            = 80
