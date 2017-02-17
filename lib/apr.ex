@@ -9,11 +9,8 @@ defmodule Apr do
     children = [
       # Start the endpoint when the application starts
       supervisor(Apr.Endpoint, []),
-      # Here you could define other workers and supervisors as children
-      # worker(Apr.Worker, [arg1, arg2, arg3]),
-      worker(Task, [Apr.EventReceiver, :start_link, ["users"]], id: :users),
-      worker(Task, [Apr.EventReceiver, :start_link, ["subscriptions"]], id: :subscriptions),
-      worker(Task, [Apr.EventReceiver, :start_link, ["inquiries"]], id: :inquiries)
+      worker(Apr.Service.AmqpEventService, ["inquiries"], id: :amq_inquiries),
+      worker(Apr.Service.AmqpEventService, ["subscriptions"], id: :subscriptions)
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

@@ -10,7 +10,6 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 socket.connect()
 let moment = require('moment')
 let messagesContainer = $("#messages")
-let artistFollowCheckbox = $('#show-follow-artist')
 let subscriptionCheckbox = $('#show-subscriptions')
 let inquiriesCheckbox = $('#show-inquiries')
 
@@ -22,18 +21,6 @@ subscriptionChannel.join()
 subscriptionChannel.on("activated", payload => {
   if (subscriptionCheckbox.is(':checked')) {
     let newItem = $(`<li class="news-item"><i class="fa fa-star-o" aria-hidden="true"></i>${moment().format("LT")}: <span class="subject-name">${payload.subject.display}</span> <span class="verb">${payload.verb}</span> ${payload.object.root_type} for <a href=${payload.properties.partner.id}>${payload.properties.partner.name}</a></li>`)
-    newItem.prependTo(messages).hide().slideDown()
-  }
-})
-
-let usersChannel = socket.channel("users", {})
-usersChannel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
-
-usersChannel.on("followed", payload => {
-  if (artistFollowCheckbox.is(':checked')) {
-    let newItem = $(`<li class="news-item"><i class="fa fa-heart" aria-hidden="true"></i>${moment().format("LT")}: <span class="subject-name">${payload.subject.display.split(" ", 1)}</span> <span class="verb">${payload.verb}</span> <a href="http://artsy.net/artist/${payload.properties.artist.id}" target='_blank'>${payload.properties.artist.name}</a></li>`)
     newItem.prependTo(messages).hide().slideDown()
   }
 })

@@ -17,7 +17,7 @@ defmodule Apr.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Apr, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext, :kafka_ex, :basic_auth]]
+     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext, :basic_auth, :amqp]]
   end
 
   # Specifies which paths to compile per environment.
@@ -33,8 +33,8 @@ defmodule Apr.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
-     {:kafka_ex, "~> 0.5.0"},
      {:basic_auth, "~> 1.0.0"},
+     {:amqp, "0.2.0-pre.1"},
      {:exrm, "~> 1.0.6"}]
   end
 end
