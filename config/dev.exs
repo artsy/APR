@@ -37,9 +37,3 @@ config :apr, :basic_auth, [
 # Do not configure such in production as keeping
 # and calculating stacktraces is usually expensive.
 config :phoenix, :stacktrace_depth, 20
-
-config :kafka_ex,
-  brokers: [{"ip-10-0-0-49.ec2.internal", 9092}, {"ip-10-0-0-248.ec2.internal", 9092}],
-  consumer_group: System.get_env("KAFKA_CONSUMER_GROUP") || "kafka_ex_local_#{System.get_env("USER")}",
-  disable_default_worker: false,
-  sync_timeout: 1000 #Timeout used synchronous requests from kafka. Defaults to 1000ms.

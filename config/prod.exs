@@ -27,12 +27,6 @@ config :apr, :basic_auth, [
 # Do not print debug messages in production
 config :logger, level: :info
 
-config :kafka_ex,
-  brokers: [{System.get_env("KAFKA_SEED_BROKER"), 9092}],
-  consumer_group: System.get_env("KAFKA_CONSUMER_GROUP") || "kafka_ex",
-  disable_default_worker: false,
-  sync_timeout: 1000 #Timeout used synchronous requests from kafka. Defaults to 1000ms.
-
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key
