@@ -6,9 +6,7 @@ machine:
 
 dependencies:
   override:
-    - sudo pip install docker-compose==1.9.0
-    - sudo apt-get install python-dev
-    - sudo pip install git+http://github.com/artsy/hokusai.git@master#egg=Hokusai
+    - ./ci/install-hokusai.sh
 
 test:
   override:
@@ -18,11 +16,6 @@ deployment:
   staging:
     branch: master
     commands:
-      - curl -O https://storage.googleapis.com/kubernetes-release/release/v1.4.7/bin/linux/amd64/kubectl
-      - chmod +x kubectl
-      - sudo mv kubectl /usr/local/bin/
-      - mkdir ~/.kube
-      - aws configure set default.region us-east-1
-      - aws s3 cp s3://artsy-citadel/k8s/config ~/.kube/config
+      - ./ci/install-kubectl.sh
       - hokusai push --test-build $CIRCLE_SHA1
       - hokusai deploy staging $CIRCLE_SHA1
