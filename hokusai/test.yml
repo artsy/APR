@@ -1,0 +1,16 @@
+---
+version: '2'
+services:
+  apr:
+    command: mix test
+    environment:
+    - MIX_ENV=test
+    - RABBITMQ_HOST=rabbitmq
+    - RABBITMQ_USER=guest
+    - RABBITMQ_PASSWORD=guest
+    - RABBITMQ_PORT=5672
+    extends:
+      file: common.yml
+      service: apr
+  rabbitmq:
+    image: rabbitmq:3.6-management

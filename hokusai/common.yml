@@ -1,0 +1,9 @@
+---
+version: '2'
+services:
+  apr:
+    build:
+      context: ../
+      args:
+        BASIC_AUTH_USER: ${BASIC_AUTH_USER}
+        BASIC_AUTH_PASSWORD: ${BASIC_AUTH_PASSWORD}

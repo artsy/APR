@@ -1,0 +1,21 @@
+---
+version: '2'
+services:
+  apr:
+    command: mix phoenix.server
+    environment:
+    - MIX_ENV=dev
+    - RABBITMQ_HOST=rabbitmq
+    - RABBITMQ_USER=guest
+    - RABBITMQ_PASSWORD=guest
+    - RABBITMQ_PORT=5672
+    extends:
+      file: common.yml
+      service: apr
+    ports:
+    - 8080:4000
+  rabbitmq:
+    image: rabbitmq:3.6-management
+    ports:
+    - 5672:5672
+    - 15672:15672
