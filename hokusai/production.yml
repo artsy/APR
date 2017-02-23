@@ -1,0 +1,43 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: apr
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: apr
+      name: apr
+      namespace: default
+    spec:
+      containers:
+      - env:
+        - name: MIX_ENV
+          value: prod
+        - name: RABBITMQ_URL
+          value: amqp://apr-rabbitmq/production
+        image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/apr:production
+        imagePullPolicy: Always
+        name: apr
+        ports:
+        - containerPort: 4000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: apr
+  name: apr
+  namespace: default
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 4000
+  selector:
+    app: apr
+  sessionAffinity: None
+  type: LoadBalancer
+
