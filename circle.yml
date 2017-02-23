@@ -1,17 +1,39 @@
 machine:
+  pre:
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
   services:
     - docker
 
 dependencies:
   override:
-    - docker build --build-arg BASIC_AUTH_USER=$BASIC_AUTH_USER --build-arg BASIC_AUTH_PASSWORD=$BASIC_AUTH_PASSWORD -t $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/apr:$CIRCLE_SHA1 .
+    - sudo pip install docker-compose==1.9.0
+    - sudo apt-get install python-dev
+    - sudo pip install git+http://github.com/artsy/hokusai.git@master#egg=Hokusai
 
 test:
   override:
-    - echo "bypassing test for now"
+    - hokusai test
 
 deployment:
-  prod:
+  staging:
     branch: master
     commands:
-      - ./deploy.sh
+      - curl -O https://storage.googleapis.com/kubernetes-release/release/v1.4.7/bin/linux/amd64/kubectl
+      - chmod +x kubectl
+      - sudo mv kubectl /usr/local/bin/
+      - mkdir ~/.kube
+      - aws configure set default.region us-east-1
+      - aws s3 cp s3://artsy-citadel/k8s/config ~/.kube/config
+      - hokusai push --test-build $CIRCLE_SHA1
+      - hokusai deploy staging $CIRCLE_SHA1
+  production:
+    branch: production
+    commands:
+      - curl -O https://storage.googleapis.com/kubernetes-release/release/v1.4.7/bin/linux/amd64/kubectl
+      - chmod +x kubectl
+      - sudo mv kubectl /usr/local/bin/
+      - mkdir ~/.kube
+      - aws configure set default.region us-east-1
+      - aws s3 cp s3://artsy-citadel/k8s/config ~/.kube/config
+      - hokusai push --test-build $CIRCLE_SHA1
+      - hokusai deploy production $CIRCLE_SHA1

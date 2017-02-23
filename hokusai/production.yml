@@ -14,15 +14,31 @@ spec:
     spec:
       containers:
       - env:
-        - name: MIX_ENV
-          value: prod
-        - name: RABBITMQ_URL
-          value: amqp://apr-rabbitmq/production
+        - name: RABBITMQ_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: apr-config
+              value: RABBITMQ_HOST
+        - name: RABBITMQ_USER
+          valueFrom:
+            configMapKeyRef:
+              name: apr-config
+              value: RABBITMQ_USER
+        - name: RABBITMQ_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: apr-config
+              value: RABBITMQ_PORT
+       - name: RABBITMQ_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: apr-secrets
+              key: RABBITMQ_PASSWORD
         image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/apr:production
         imagePullPolicy: Always
         name: apr
         ports:
-        - containerPort: 4000
+        - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
@@ -31,13 +47,14 @@ metadata:
     app: apr
   name: apr
   namespace: default
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
 spec:
   ports:
-  - port: 8080
+  - port: 80
     protocol: TCP
-    targetPort: 4000
+    targetPort: 80
   selector:
     app: apr
   sessionAffinity: None
   type: LoadBalancer
-
