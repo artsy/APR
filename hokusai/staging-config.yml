@@ -5,6 +5,7 @@ metadata:
     app: apr
   name: apr-config
 data:
+  APR_HOST: apr-staging.artsy.net
   RABBITMQ_HOST: rmq-amqp
   RABBITMQ_USER: artsy
   RABBITMQ_PORT: "5672"

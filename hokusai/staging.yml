@@ -14,6 +14,11 @@ spec:
     spec:
       containers:
       - env:
+        - name: APR_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: apr-config
+              key: APR_HOST
         - name: RABBITMQ_HOST
           valueFrom:
             configMapKeyRef:
