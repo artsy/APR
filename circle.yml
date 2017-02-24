@@ -1,17 +1,21 @@
 machine:
+  pre:
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
   services:
     - docker
 
 dependencies:
   override:
-    - docker build --build-arg BASIC_AUTH_USER=$BASIC_AUTH_USER --build-arg BASIC_AUTH_PASSWORD=$BASIC_AUTH_PASSWORD -t $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/apr:$CIRCLE_SHA1 .
+    - ./ci/install-hokusai.sh
 
 test:
   override:
-    - echo "bypassing test for now"
+    - hokusai build
 
 deployment:
-  prod:
+  staging:
     branch: master
     commands:
-      - ./deploy.sh
+      - ./ci/install-kubectl.sh
+      - hokusai push $CIRCLE_SHA1
+      - hokusai deploy staging $CIRCLE_SHA1
