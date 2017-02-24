@@ -5,6 +5,7 @@ metadata:
     app: apr
   name: apr-config
 data:
+  MIX_ENV: prod
   RABBITMQ_HOST: rmq-amqp
-  RABBITMQ_USER: artsy
+  RABBITMQ_USER: apr
   RABBITMQ_PORT: "5672"
