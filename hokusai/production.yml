@@ -18,18 +18,18 @@ spec:
           valueFrom:
             configMapKeyRef:
               name: apr-config
-              value: RABBITMQ_HOST
+              key: RABBITMQ_HOST
         - name: RABBITMQ_USER
           valueFrom:
             configMapKeyRef:
               name: apr-config
-              value: RABBITMQ_USER
+              key: RABBITMQ_USER
         - name: RABBITMQ_PORT
           valueFrom:
             configMapKeyRef:
               name: apr-config
-              value: RABBITMQ_PORT
-       - name: RABBITMQ_PASSWORD
+              key: RABBITMQ_PORT
+        - name: RABBITMQ_PASSWORD
           valueFrom:
             secretKeyRef:
               name: apr-secrets
