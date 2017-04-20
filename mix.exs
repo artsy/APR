@@ -34,7 +34,7 @@ defmodule Apr.Mixfile do
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
      {:basic_auth, "~> 1.0.0"},
-     {:amqp, "0.2.0-pre.1"},
+     {:amqp, "0.2.1"},
      {:exrm, "~> 1.0.6"}]
   end
 end
