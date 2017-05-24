@@ -6,16 +6,18 @@ machine:
 
 dependencies:
   override:
-    - ./ci/install-hokusai.sh
+    - sudo pip install docker-compose==1.9.0
+    - sudo apt-get install python-dev
+    - sudo pip install hokusai==1.0b4
 
 test:
   override:
-    - hokusai build
+    - hokusai test
 
 deployment:
   staging:
     branch: master
     commands:
-      - ./ci/install-kubectl.sh
-      - hokusai push $CIRCLE_SHA1
-      - hokusai deploy staging $CIRCLE_SHA1
+      - hokusai configure --kubectl-version 1.6.3 --s3-bucket artsy-citadel --s3-key k8s/config --platform linux --install-to /home/ubuntu/bin
+      - hokusai push --tag $CIRCLE_SHA1
+      - hokusai deploy $CIRCLE_SHA1 --staging
