@@ -1,4 +1,21 @@
-# Apr
+# APR
+
+APR is a consumer of Artsy's [event service](https://github.com/artsy/gravity/blob/master/doc/EventStream.md), currently implemented in RabbitMQ.
+
+APR itself is a Phoenix app, that displays events of interest in a web UI.
+
+## Meta
+
+[![CircleCI](https://circleci.com/gh/artsy/APR.svg?style=svg)](https://circleci.com/gh/artsy/APR)
+
+* __State:__ production
+* __Production:__ [http://apr.artsy.net](http://apr.artsy.net)
+* __Github:__ [https://github.com/artsy/APR](https://github.com/artsy/APR)
+* __CI:__ [https://circleci.com/gh/artsy/APR](https://circleci.com/gh/artsy/APR)
+* __Point People:__ [@ashkan18](https://github.com/ashkan18)
+
+
+## Development
 
 To start your Phoenix app:
 
