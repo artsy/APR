@@ -35,6 +35,9 @@ defmodule Apr.Mixfile do
      {:cowboy, "~> 1.0"},
      {:basic_auth, "~> 1.0.0"},
      {:amqp, "0.2.1"},
-     {:exrm, "~> 1.0.6"}]
+     {:exrm, "~> 1.0.6"},
+     {:relx, "~>3.23.1"}, 
+     {:erlware_commons, "~> 1.0"},
+]
   end
 end

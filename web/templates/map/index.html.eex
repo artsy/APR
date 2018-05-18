@@ -1,0 +1,60 @@
+<html>
+  <meta charset="utf-8"/>
+  <head>
+    <style>
+      * {
+        box-sizing: 'border-box';
+      }
+      #map {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      #map svg {
+
+      }
+      body {
+        background: black;
+      }
+      .datamaps-subunits path {
+        fill: #333 !important;
+        stroke: #333 !important;
+      }
+      circle {
+        fill: rgba(255,255,118,1) !important;
+        stroke-width: 0 !important;
+      }
+      #year {
+        position: absolute;
+        bottom: 50;
+        left: 50;
+        color: rgba(255, 255, 255, 0.6);
+        font-family: "Avant Garde Gothic ITCW01Dm";
+        font-size: 50
+      }
+    </style>
+  </head>
+  <body>
+  <div id='map'></div>
+  <div id='year'></div>
+
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+  <script src="/js/datamaps.world.min.js"></script>
+
+  <script>
+    document.getElementById("map").innerHTML = ''
+    window.map = new Datamap({
+      element: document.getElementById("map"),
+      projection: "mercator",
+      bubblesConfig: {
+        animate: false
+      }
+    })
+  </script>
+
+  </body>
+</html>

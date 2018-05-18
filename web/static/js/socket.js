@@ -37,6 +37,4 @@ inquiriesChannel.on("inquired", payload => {
   }
 })
 
-
-
 export default socket
