@@ -22,7 +22,7 @@ defmodule Apr.Service.AmqpEventService do
         Exchange.topic(chan, topic, durable: true)
         queue_name = "apr_#{topic}_queue"
         Queue.declare(chan, queue_name, durable: true)
-        Queue.bind(chan, queue_name, topic, routing_key: "*")
+        Queue.bind(chan, queue_name, topic, routing_key: "#")
         {:ok, _consumer_tag} = Basic.consume(chan, queue_name)
         {:ok, {chan, topic}}
       {:error, message} ->
