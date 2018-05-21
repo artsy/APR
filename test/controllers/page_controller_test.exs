@@ -2,7 +2,9 @@ defmodule Apr.PageControllerTest do
   use Apr.ConnCase
 
   test "GET /", %{conn: conn} do
-    conn = get conn, "/"
-    assert html_response(conn, 200) =~ "Welcome to Phoenix!"
+    conn = conn
+            |> put_req_header("authorization", "Basic " <> Base.encode64("sample:sample"))
+            |> get("/")
+    assert html_response(conn, 200) =~ "Artsy Public Radio"
   end
 end
