@@ -5,12 +5,14 @@ services:
     command: mix test
     environment:
     - MIX_ENV=test
-    - RABBITMQ_HOST=rabbitmq
+    - RABBITMQ_HOST=apr-rabbitmq
     - RABBITMQ_USER=guest
     - RABBITMQ_PASSWORD=guest
     - RABBITMQ_PORT=5672
     extends:
       file: common.yml
       service: apr
-  rabbitmq:
+    depends_on:
+      - apr-rabbitmq
+  apr-rabbitmq:
     image: rabbitmq:3.6-management

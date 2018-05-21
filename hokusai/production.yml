@@ -27,7 +27,17 @@ spec:
           image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/apr:production
           imagePullPolicy: Always
           ports:
-          - containerPort: 80
+          - containerPort: 8080
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: tier
+                operator: In
+                values:
+                - foreground
 ---
 apiVersion: v1
 kind: Service
@@ -44,7 +54,7 @@ spec:
   ports:
   - port: 80
     protocol: TCP
-    targetPort: 80
+    targetPort: 8080
   selector:
     app: apr
     layer: application
