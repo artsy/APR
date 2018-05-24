@@ -13,8 +13,7 @@ use Mix.Config
 # which you typically run after static files are built.
 config :apr, Apr.Endpoint,
 load_from_system_env: true,
-  http: [port: 4000],
-  url: [host: System.get_env("APR_HOST") || "apr.artsy.net", port: 80],
+  http: [port: 4000, ip: {0,0,0,0}],
   cache_static_manifest: "priv/static/manifest.json",
   server: true,
   root: "."
