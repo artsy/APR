@@ -14,7 +14,7 @@ use Mix.Config
 config :apr, Apr.Endpoint,
 load_from_system_env: true,
   http: [port: 4000],
-  url: [host: System.get_env("BASE_URL"), port: 443, scheme: "https"],
+  url: [host: System.get_env("APR_HOST") || "apr.artsy.net", port: 80],
   cache_static_manifest: "priv/static/manifest.json",
   server: true,
   root: "."
