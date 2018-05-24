@@ -7,7 +7,6 @@ use Mix.Config
 
 # Configures the endpoint
 config :apr, Apr.Endpoint,
-  url: [host: "localhost"],
   root: Path.dirname(__DIR__),
   secret_key_base: "JzrxjhEfoUbTOX38unZPfTvfyreAgKQkzRozn5mheqBUU1sSmUCDsuZL7Kl8Lt9R",
   render_errors: [accepts: ~w(html json)],

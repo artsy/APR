@@ -27,7 +27,7 @@ spec:
           image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/apr:staging
           imagePullPolicy: Always
           ports:
-          - containerPort: 8080
+          - containerPort: 4000
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -54,7 +54,7 @@ spec:
   ports:
   - port: 80
     protocol: TCP
-    targetPort: 8080
+    targetPort: 4000
   selector:
     app: apr
     layer: application
