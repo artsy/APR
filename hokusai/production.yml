@@ -20,17 +20,15 @@ spec:
       namespace: default
     spec:
       containers:
-      - env:
-        - name: MIX_ENV
-          value: prod
-        envFrom:
-        - configMapRef:
-          name: apr-environment
-        image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/apr:production
-        imagePullPolicy: Always
-        name: apr-web
-        ports:
-        - containerPort: 4000
+        - name: apr-web
+          envFrom:
+          - configMapRef:
+            name: apr-environment
+          image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/apr:production
+          imagePullPolicy: Always
+          name: apr-web
+          ports:
+          - containerPort: 4000
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
