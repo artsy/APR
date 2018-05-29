@@ -4,7 +4,7 @@ FROM elixir:1.5.3-slim
 RUN adduser --disabled-password --gecos '' deploy
 
 RUN apt-get update && \
-      apt-get -y install sudo curl gnupg
+      apt-get -y install sudo curl gnupg1 apt-transport-https ca-certificates
 
 # install Node.js (>= 6.0.0) and NPM in order to satisfy brunch.io dependencies
 # See http://www.phoenixframework.org/docs/installation#section-node-js-5-0-0-
@@ -42,7 +42,7 @@ RUN mix deps.get
 RUN mix compile
 
 RUN npm install
-RUN node node_modules/brunch/bin/brunch build --production
+RUN node assets/node_modules/brunch/bin/brunch build assets --production
 RUN mix phoenix.digest
 
 CMD service nginx start && mix phoenix.server
