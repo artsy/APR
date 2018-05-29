@@ -1,10 +1,10 @@
-FROM elixir:1.5.3-slim
+FROM elixir:1.5.3
 
 # Set up deploy user and working directory
 RUN adduser --disabled-password --gecos '' deploy
 
 RUN apt-get update && \
-      apt-get -y install sudo curl gnupg1 apt-transport-https ca-certificates
+      apt-get -y install sudo
 
 # install Node.js (>= 6.0.0) and NPM in order to satisfy brunch.io dependencies
 # See http://www.phoenixframework.org/docs/installation#section-node-js-5-0-0-
@@ -29,8 +29,6 @@ ENV HOME /home/deploy
 
 RUN mix local.hex --force
 RUN mix local.rebar --force
-
-ENV PHOENIX_VERSION 1.2.0
 
 # install the Phoenix Mix archive
 RUN mix archive.install https://github.com/phoenixframework/archives/raw/master/phx_new.ez
