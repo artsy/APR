@@ -33,6 +33,16 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 4000
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: tier
+                operator: In
+                values:
+                - foreground
 ---
 apiVersion: v1
 kind: Service
@@ -43,6 +53,8 @@ metadata:
     layer: application
   name: apr-web
   namespace: default
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
 spec:
   ports:
   - port: 80

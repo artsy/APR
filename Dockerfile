@@ -1,5 +1,6 @@
 FROM elixir:1.5.3-slim
 
+# Set up deploy user and working directory
 RUN adduser --disabled-password --gecos '' deploy
 
 RUN apt-get update && \
@@ -7,7 +8,7 @@ RUN apt-get update && \
 
 # install Node.js (>= 6.0.0) and NPM in order to satisfy brunch.io dependencies
 # See http://www.phoenixframework.org/docs/installation#section-node-js-5-0-0-
-RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - && apt-get update && sudo apt-get install -y nodejs
+RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - && apt-get update && sudo apt-get install -y nodejs
 
 RUN apt-get -y install nginx
 RUN rm -v /etc/nginx/nginx.conf
@@ -29,6 +30,8 @@ ENV HOME /home/deploy
 RUN mix local.hex --force
 RUN mix local.rebar --force
 
+ENV PHOENIX_VERSION 1.2.0
+
 # install the Phoenix Mix archive
 RUN mix archive.install https://github.com/phoenixframework/archives/raw/master/phx_new.ez
 
@@ -39,7 +42,7 @@ RUN mix deps.get
 RUN mix compile
 
 RUN npm install
-RUN node assets/node_modules/brunch/bin/brunch build assets
-RUN mix phx.digest
+RUN node node_modules/brunch/bin/brunch build --production
+RUN mix phoenix.digest
 
-CMD service nginx start && mix phx.server
+CMD service nginx start && mix phoenix.server
