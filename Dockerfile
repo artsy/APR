@@ -1,10 +1,10 @@
 FROM elixir:1.5.3
 
 # Set up deploy user and working directory
-RUN adduser --disabled-password --gecos '' deploy
+# RUN adduser --disabled-password --gecos '' deploy
 
 RUN apt-get update && \
-      apt-get -y install sudo
+      apt-get -y install sudo apt-utils
 
 # install Node.js (>= 6.0.0) and NPM in order to satisfy brunch.io dependencies
 # See http://www.phoenixframework.org/docs/installation#section-node-js-5-0-0-
@@ -20,12 +20,12 @@ ADD conf/apr-backend.conf /etc/nginx/conf.d/
 RUN mkdir /app
 ADD . /app
 WORKDIR /app
-RUN chown -R deploy:deploy /app
+# RUN chown -R deploy:deploy /app
 
 # Switch to deploy user
-USER deploy
-ENV USER deploy
-ENV HOME /home/deploy
+# USER deploy
+# ENV USER deploy
+# ENV HOME /home/deploy
 
 RUN mix local.hex --force
 RUN mix local.rebar --force
