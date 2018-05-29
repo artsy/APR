@@ -1,0 +1,14 @@
+---
+version: '2'
+services:
+  apr:
+    command: mix run
+    environment:
+    - MIX_ENV=dev
+    extends:
+      file: common.yml
+      service: apr
+    ports:
+      - 4000:4000
+    volumes:
+      - ../:/app

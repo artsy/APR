@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>APR: Artsy Public Radio!</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link rel="icon" href="<%= static_path(@conn, "/favicon.ico") %>">
+  </head>
+
+  <body>
+    <div class="container">
+      <header class="header">
+          <div class="container-fluid">
+            <span class="logo"></span>
+            <span class="pull-right">
+              <h4>Artsy Public Radio</h4>
+            </span>
+          </div>
+        </nav>
+      </header>
+      <main role="main">
+        <%= render @view_module, @view_template, assigns %>
+      </main>
+
+    </div> <!-- /container -->
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>

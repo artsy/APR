@@ -1,0 +1,10 @@
+---
+version: '2'
+services:
+  apr:
+    command: 
+    environment:
+    - MIX_ENV=test
+    extends:
+      file: common.yml
+      service: apr
