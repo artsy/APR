@@ -1,10 +1,10 @@
-FROM elixir:1.5.3
+FROM elixir:1.5.3-slim
 
 # Set up deploy user and working directory
 # RUN adduser --disabled-password --gecos '' deploy
 
 RUN apt-get update && \
-      apt-get -y install sudo apt-utils
+      apt-get -y install sudo
 
 # install Node.js (>= 6.0.0) and NPM in order to satisfy brunch.io dependencies
 # See http://www.phoenixframework.org/docs/installation#section-node-js-5-0-0-
