@@ -55,8 +55,6 @@ socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
 let messagesContainer = document.querySelector("#messages")
-let subscriptionCheckbox = document.querySelector('#show-subscriptions')
-let inquiriesCheckbox = document.querySelector('#show-inquiries')
 
 let inquiriesChannel = socket.channel("inquiries", {})
 
@@ -65,7 +63,6 @@ inquiriesChannel.join()
   .receive("error", resp => { console.log("Unable to join", resp) })
 
 inquiriesChannel.on("artworkinquiryrequest.inquired", payload => {
-  console.log("Received inquiry event")
   let newItem = document.createElement("li", { class: "news-item"})
   newItem.innerHTML = `💌 <span class="subject-name">${payload.subject.display.split(" ", 1)}</span> <span class="verb">${payload.verb}</span> <a href="http://artsy.net/artwork/${payload.properties.inquireable.id}" target='_blank'>${payload.properties.inquireable.name}</a>`
   messagesContainer.appendChild(newItem)

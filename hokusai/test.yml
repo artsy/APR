@@ -9,6 +9,8 @@ services:
     - RABBITMQ_USER=guest
     - RABBITMQ_PASSWORD=guest
     - RABBITMQ_PORT=5672
+    - BASIC_AUTH_USER=sample
+    - BASIC_AUTH_PASSWORD=sample
     extends:
       file: common.yml
       service: apr
