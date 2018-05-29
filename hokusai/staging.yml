@@ -41,6 +41,8 @@ metadata:
     layer: application
   name: apr-web
   namespace: default
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
 spec:
   ports:
   - port: 80
