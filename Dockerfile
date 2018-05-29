@@ -1,9 +1,9 @@
-FROM elixir:1.5.3
+FROM elixir:1.5.3-slim
 
 RUN adduser --disabled-password --gecos '' deploy
 
 RUN apt-get update && \
-      apt-get -y install sudo
+      apt-get -y install sudo curl gnupg
 
 # install Node.js (>= 6.0.0) and NPM in order to satisfy brunch.io dependencies
 # See http://www.phoenixframework.org/docs/installation#section-node-js-5-0-0-
@@ -12,8 +12,8 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - && apt-get up
 RUN apt-get -y install nginx
 RUN rm -v /etc/nginx/nginx.conf
 RUN rm -v /etc/nginx/sites-enabled/default
-ADD nginx/nginx.conf /etc/nginx/
-ADD nginx/apr-backend.conf /etc/nginx/conf.d/
+ADD conf/nginx.conf /etc/nginx/
+ADD conf/apr-backend.conf /etc/nginx/conf.d/
 
 # Set up working directory
 RUN mkdir /app
