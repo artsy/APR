@@ -65,9 +65,10 @@ inquiriesChannel.join()
   .receive("error", resp => { console.log("Unable to join", resp) })
 
 inquiriesChannel.on("inquired", payload => {
+  console.log("Received inquiry event")
   if (inquiriesCheckbox.is(':checked')) {
-    //let newItem = document.querySelector(`<li class="news-item"><i class="fa fa-bell" aria-hidden="true"></i>: <span class="subject-name">${payload.subject.display.split(" ", 1)}</span> <span class="verb">${payload.verb}</span> <a href="http://artsy.net/artwork/${payload.properties.inquireable.id}" target='_blank'>${payload.properties.inquireable.name}</a></li>`)
-    //newItem.prependTo(messages).hide().slideDown()
+    let newItem = document.querySelector(`<li class="news-item"><i class="fa fa-bell" aria-hidden="true"></i>: <span class="subject-name">${payload.subject.display.split(" ", 1)}</span> <span class="verb">${payload.verb}</span> <a href="http://artsy.net/artwork/${payload.properties.inquireable.id}" target='_blank'>${payload.properties.inquireable.name}</a></li>`)
+    newItem.prependTo(messages).hide().slideDown()
   }
 })
 

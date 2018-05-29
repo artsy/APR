@@ -43,4 +43,4 @@ RUN npm install
 RUN node assets/node_modules/brunch/bin/brunch build assets --production
 RUN mix phoenix.digest
 
-CMD service nginx start && mix phoenix.server
+CMD service nginx start && mix phx.server
