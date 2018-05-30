@@ -1,4 +1,4 @@
-# Apr
+# APR (Artsy Public Radio)
 
 To start your Phoenix server:
 

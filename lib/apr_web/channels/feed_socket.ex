@@ -2,7 +2,7 @@ defmodule AprWeb.FeedSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "inquiries:*", AprWeb.InquiriesChannel
+  channel "inquiries", AprWeb.InquiriesChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

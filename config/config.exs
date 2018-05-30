@@ -25,8 +25,8 @@ config :apr, RabbitMQ,
   heartbeat: 5
 
 config :apr, basic_auth: [
-  username: System.get_env("BASICAUTH_USER"),
-  password: System.get_env("BASICAUTH_PASS"),
+  username: System.get_env("BASIC_AUTH_USER"),
+  password: System.get_env("BASIC_AUTH_PASSWORD"),
   realm: "Admin Area"
 ]
 
