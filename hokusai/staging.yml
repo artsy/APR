@@ -24,6 +24,8 @@ spec:
         env:
         - name: MIX_ENV
           value: prod
+        - name: PORT
+          value: '4000'
         envFrom:
         - configMapRef:
             name: apr-environment
