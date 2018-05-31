@@ -4,7 +4,6 @@ defmodule Apr.UserSocket do
   ## Channels
   # channel "rooms:*", Apr.RoomChannel
   channel "subscriptions", Apr.EventChannel
-  channel "users", Apr.EventChannel
   channel "inquiries", Apr.EventChannel
 
   ## Transports

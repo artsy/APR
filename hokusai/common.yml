@@ -7,3 +7,4 @@ services:
       args:
         BASIC_AUTH_USER: ${BASIC_AUTH_USER}
         BASIC_AUTH_PASSWORD: ${BASIC_AUTH_PASSWORD}
+        MIX_ENV: ${MIX_ENV}

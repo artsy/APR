@@ -3,6 +3,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: apr-web
+  namespace: default
 spec:
   replicas: 2
   strategy:
@@ -17,18 +18,21 @@ spec:
         layer: application
         component: web
       name: apr-web
-      namespace: default
     spec:
       containers:
-        - name: apr-web
-          envFrom:
-          - configMapRef:
-              name: apr-environment
-          image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/apr:production
-          imagePullPolicy: Always
-          name: apr-web
-          ports:
-          - containerPort: 4000
+      - env:
+        - name: MIX_ENV
+          value: prod
+        - name: PORT
+          value: '4000'
+        envFrom:
+        - configMapRef:
+            name: apr-environment
+        image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/apr:production
+        imagePullPolicy: Always
+        name: apr-web
+        ports:
+        - containerPort: 4000
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -50,11 +54,21 @@ metadata:
   name: apr-web
   namespace: default
   annotations:
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "arn:aws:iam::585031190124:server-certificate/2018-01-17_artsy-net-wildcard"
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "http"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+    service.beta.kubernetes.io/aws-load-balancer-connection-draining-enabled: "true"
     service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
 spec:
   ports:
+  - port: 443
+    protocol: TCP
+    name: https
+    targetPort: 4000
   - port: 80
     protocol: TCP
+    name: http
     targetPort: 4000
   selector:
     app: apr
