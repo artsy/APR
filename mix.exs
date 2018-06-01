@@ -39,6 +39,8 @@ defmodule Apr.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:amqp, "~> 1.0"},
+      {:poison, "~> 3.0", override: true},
+      {:httpoison, "~> 1.0"},
       {:basic_auth, "~> 2.2.2"}
     ]
   end

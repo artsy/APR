@@ -63,6 +63,7 @@ inquiriesChannel.join()
   .receive("error", resp => { console.log("Unable to join", resp) })
 
 inquiriesChannel.on("artworkinquiryrequest.inquired", payload => {
+  console.log(payload)
   let newItem = document.createElement("li", { class: "news-item"})
   newItem.innerHTML = `💌 <span class="subject-name">${payload.subject.display.split(" ", 1)}</span> <span class="verb">${payload.verb}</span> <a href="http://artsy.net/artwork/${payload.properties.inquireable.id}" target='_blank'>${payload.properties.inquireable.name}</a>`
   messagesContainer.appendChild(newItem)

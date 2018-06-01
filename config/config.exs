@@ -30,6 +30,10 @@ config :apr, basic_auth: [
   realm: "Admin Area"
 ]
 
+config :apr,
+  gravity_api_url: System.get_env("GRAVITY_API_URL"),
+  gravity_api_token: System.get_env("GRAVITY_API_TOKEN")
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
