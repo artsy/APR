@@ -5,9 +5,8 @@ defmodule AprWeb.InquiriesChannel do
     {:ok, socket}
   end
 
-  def handle_in(routing_key, %{"object" => object, "verb" => verb, "subject" => subject, "properties" => properties}, socket) do
-    IO.puts "Consuming an event IIII"
-    broadcast! socket, routing_key, %{object: object, verb: verb, subject: subject, properties: properties}
+  def handle_in("artworkinquiryrequest.inquired", payload, socket) do
+    broadcast! socket, "artworkinquiryrequest.inquired", payload
     {:noreply, socket}
   end
 end

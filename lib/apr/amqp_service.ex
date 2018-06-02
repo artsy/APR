@@ -21,7 +21,7 @@ defmodule Apr.AmqpService do
         {:ok, chan} = Channel.open(conn)
         Basic.qos(chan, prefetch_count: 10)
         Exchange.topic(chan, topic, durable: true)
-        queue_name = "apr_#{topic}_queue"
+        queue_name = "ashkan_apr_#{topic}_queue"
         Queue.declare(chan, queue_name, durable: true)
         for routing_key <- routing_keys, do: Queue.bind(chan, queue_name, topic, routing_key: routing_key)
         {:ok, _consumer_tag} = Basic.consume(chan, queue_name)
@@ -69,7 +69,7 @@ defmodule Apr.AmqpService do
       event = Poison.decode!(payload)
                 |> Map.take(["verb", "subject", "object", "properties"])
       Task.async(fn ->
-        AprWeb.Endpoint.broadcast(topic, routing_key, event)
+        AprWeb.IncomingEventService.process(topic, routing_key, event)
       end)
     rescue
       exception ->

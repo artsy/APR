@@ -64,7 +64,12 @@ inquiriesChannel.join()
 
 inquiriesChannel.on("artworkinquiryrequest.inquired", payload => {
   let newItem = document.createElement("li", { class: "news-item"})
-  newItem.innerHTML = `💌 <span class="subject-name">${payload.subject.display.split(" ", 1)}</span> <span class="verb">${payload.verb}</span> <a href="http://artsy.net/artwork/${payload.properties.inquireable.id}" target='_blank'>${payload.properties.inquireable.name}</a>`
+  newItem.innerHTML = `💌 
+    <span class="subject-name">
+      ${payload.subject.display.split(" ", 1)}
+    </span> <span class="verb">${payload.verb} </span>
+    <a href="http://artsy.net/artwork/${payload.properties.inquireable.id}" target='_blank'>${payload.properties.inquireable.name}</a>
+    Offered by <span class="partner-name"> ${payload.partner.name} </span> at ${payload.partner_locations[0].coordinates.lat}, ${payload.partner_locations[0].coordinates.lng}`
   messagesContainer.appendChild(newItem)
 })
 
