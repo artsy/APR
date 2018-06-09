@@ -7,7 +7,7 @@ defmodule AprWeb.IncomingEventService do
         # fetch user location
         user_task = Task.async(fn -> AprWeb.Gravity.get!("/v1/user/#{event["properties"]["inquirer"]["id"]}") end)
         # fetch partner locations
-        
+
         artwork = Task.await(artwork_task)
         partner_task = Task.async(fn -> AprWeb.Gravity.get!("/v1/partner/#{artwork.body["partner"]["_id"]}") end)
         partner_locations_task = Task.async(fn -> AprWeb.Gravity.get!("/v1/partner/#{artwork.body["partner"]["_id"]}/locations") end)
