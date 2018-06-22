@@ -2,6 +2,10 @@ defmodule AprWeb.IncomingEventService do
   def process(topic, routing_key, event) do
     case routing_key do
       "artworkinquiryrequest.inquired" ->
+
+        # require IEx
+        # IEx.pry
+
         # fetch artwork
         artwork_task = Task.async(fn -> AprWeb.Gravity.get!("/v1/artwork/#{event["properties"]["inquireable"]["id"]}") end)
         # fetch user location

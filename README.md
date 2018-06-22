@@ -1,10 +1,11 @@
-# APR (Artsy Public Radio)
+# APR (Artsy Private Radio 2)
 
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
   * Install Node.js dependencies with `cd assets && npm install`
-  * Start Phoenix endpoint with `mix phx.server`
+  * Set up your `.env` by copying `.env.example` and filling out the vars
+  * Start Phoenix server with `foreman exec mix phx.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
