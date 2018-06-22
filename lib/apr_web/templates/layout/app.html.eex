@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>APR: Artsy Public Radio!</title>
+    <title>APR: Artsy Private Radio 2!</title>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
@@ -20,7 +20,7 @@
           <div class="container-fluid">
             <span class="logo"></span>
             <span class="pull-right">
-              <h4>Artsy Public Radio</h4>
+              <h4>Artsy Private Radio 2 - Inquiries</h4>
             </span>
           </div>
         </nav>
@@ -30,7 +30,98 @@
       </main>
 
     </div> <!-- /container -->
-    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <style>
+      * {
+        box-sizing: 'border-box';
+      }
+      #map {
+        height: 100%;
+        width:  100%;
+        position: absolute;
+        top: 0;
+        left: 100px;
+        z-index: -20;
+      }
+      
+      body {
+        background: black;
+        color: #999;
+      }
+      .datamaps-subunits path {
+        fill: #333 !important;
+        stroke: #333 !important;
+      }
+      circle {
+        fill: rgba(255,255,118,1) !important;
+        stroke-width: 0 !important;
+      }
+
+      #sidebar {
+        height: 100%;
+      }
+
+      #sidebar ol {
+        padding-left: 10px;
+        background-color: #00000050;
+        width: 320px;
+      }
+
+      #sidebar li {
+        list-style-type: none;
+        min-height: 120px;
+        font-family: "Unica77 LL";
+      }
+
+      #sidebar li .img {
+        position:absolute;
+        width: 120px;
+        height: 120px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+      #sidebar li p {
+        margin-left: 140px;
+        padding-top: 30px;
+      }
+      #sidebar li span{
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+
+  <div id="sidebar">
+    <ol>
+    </ol>
+  </div>
+
+  <div id='map'></div>
+
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+  
+  <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+
+  <script>
+    document.getElementById("map").innerHTML = ''
+    window.map = new Datamap({
+      element: document.getElementById("map"),
+      projection: "mercator", 
+      bubblesConfig: {
+        animate: false
+      },
+      arcConfig: {
+        strokeColor: '#f7f771 ',
+        strokeWidth: 2,
+        animationSpeed: 600
+      }
+    })
+  </script>
+
   </body>
+</html>
+
 </html>
