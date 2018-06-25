@@ -112,10 +112,15 @@ const addArc = (from, to) => {
   }
   allArcs.push(arcData)
   window.map.arc(allArcs)
+
+  // cap it at 50
+  if (allArcs.length > 50) {
+    allArcs.shift()
+  }
 }
 
 const getDistance = (to, from) => {
-  return getDistanceFromLatLonInKm(from.coordinates.lat,from.coordinates.lng,to.coordinates.lat,to.coordinates.lng)
+  return getDistanceFromLatLonInKm(from.coordinates.lat, from.coordinates.lng, to.coordinates.lat, to.coordinates.lng)
 }
 
 // https://stackoverflow.com/questions/18883601/function-to-calculate-distance-between-two-coordinates-shows-wrong
