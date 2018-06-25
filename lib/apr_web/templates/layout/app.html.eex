@@ -114,9 +114,9 @@
         animate: false
       },
       arcConfig: {
-        strokeColor: '#f7f771 ',
+        strokeColor: 'rgba(247, 247, 113, 0.5) ',
         strokeWidth: 2,
-        animationSpeed: 600
+        animationSpeed: 1000
       }
     })
   </script>
