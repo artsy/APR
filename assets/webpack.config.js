@@ -4,7 +4,7 @@ module.exports = function(env) {
   const production = process.env.NODE_ENV === 'production';
   return {
     devtool: production ? 'source-maps' : 'eval',
-    entry: './js/app.js',
+    entry: './js/app.ts',
     output: {
       path: path.resolve(__dirname, '../priv/static/js'),
       filename: 'app.js',
@@ -12,6 +12,13 @@ module.exports = function(env) {
     },
     module: {
       rules: [
+        {
+          test: /\.ts$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+          },
+        },
         {
           test: /\.js$/,
           exclude: /node_modules/,
@@ -23,7 +30,7 @@ module.exports = function(env) {
     },
     resolve: {
       modules: ['node_modules', path.resolve(__dirname, 'js')],
-      extensions: ['.js'],
+      extensions: ['.js', '.ts'],
     },
   };
 };
