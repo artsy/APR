@@ -18,20 +18,5 @@ import "phoenix_html"
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-import * as Datamap from "datamaps"
-
-document.getElementById("map").innerHTML = ''
-window.map = new Datamap({
-  element: document.getElementById("map"),
-  projection: "mercator",
-  bubblesConfig: {
-    animate: false
-  },
-  arcConfig: {
-    strokeColor: 'rgba(247, 247, 113, 0.5) ',
-    strokeWidth: 2,
-    animationSpeed: 1000
-  }
-})
 
 import socket from "./socket"
