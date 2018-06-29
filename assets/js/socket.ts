@@ -34,7 +34,7 @@ const shortDateString = (loc) => {
 }
 
 // Adds an arc, and caps the amount at 50 on the map
-const addArc = (from, to) => {
+const addArc = (from, to, options={}) => {
   const arcData = {
     origin: {
         latitude: from.coordinates.lat,
@@ -43,7 +43,8 @@ const addArc = (from, to) => {
     destination: {
       latitude: to.coordinates.lat,
       longitude: to.coordinates.lng
-    }
+    },
+    options
   }
   allArcs.push(arcData)
   map.arc(allArcs)
@@ -119,7 +120,7 @@ socketChannel.on("artworkinquiryrequest.inquired", payload => {
 
     const thumbnail = generateAThumbnail(
       payload.artwork.images[0].image_urls.medium,
-      `${payload.properties.inquireable.name}</span> from <span>${payload.partner.name}</span>.`, 
+      `${payload.properties.inquireable.name}</span> from <span>${payload.partner.name}</span>.`,
       `${shortDateString(payload.user.location)} ✈ ${shortDateString(partnerLoc)} (${distance}km)`
     )
 
@@ -137,7 +138,7 @@ socketChannel.on("purchase.purchased", payload => {
       }
     });
 
-    addArc(partnerLoc, payload.user.location)
+    addArc(partnerLoc, payload.user.location, { strokeWidth: 2, strokeColor: '#6E1FFF', greatArc: true} )
 
     const distance =  Math.round(getDistance(payload.user.location, partnerLoc))
 
