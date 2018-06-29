@@ -11,7 +11,8 @@ defmodule Apr.Application do
       # Start the endpoint when the application starts
       supervisor(AprWeb.Endpoint, []),
       # Start your own worker by calling: Apr.Worker.start_link(arg1, arg2, arg3)
-      worker(Apr.AmqpService, [%{topic: "inquiries"}], id: :amq_inquiries)
+      worker(Apr.AmqpService, [%{topic: "inquiries"}], id: :amq_inquiries),
+      worker(Apr.AmqpService, [%{topic: "purchases"}], id: :amq_purchases)
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

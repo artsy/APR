@@ -3,6 +3,7 @@ defmodule AprWeb.FeedSocket do
 
   ## Channels
   channel "inquiries", AprWeb.InquiriesChannel
+  channel "purchases", AprWeb.PurchasesChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
