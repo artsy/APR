@@ -1,3 +1,2 @@
-<div class="main-area">
-  <ul id="messages"></ul>
+<div id="map" class="main-area">
 </div>

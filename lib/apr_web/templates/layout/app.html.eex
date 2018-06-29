@@ -43,7 +43,7 @@
         left: 100px;
         z-index: -20;
       }
-      
+
       body {
         background: black;
         color: #999;
@@ -92,36 +92,6 @@
   </head>
   <body>
 
-  <div id="sidebar">
-    <ol>
-    </ol>
-  </div>
-
-  <div id='map'></div>
-
-  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
-  
   <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-
-  <script>
-    document.getElementById("map").innerHTML = ''
-    window.map = new Datamap({
-      element: document.getElementById("map"),
-      projection: "mercator", 
-      bubblesConfig: {
-        animate: false
-      },
-      arcConfig: {
-        strokeColor: 'rgba(247, 247, 113, 0.5) ',
-        strokeWidth: 2,
-        animationSpeed: 1000
-      }
-    })
-  </script>
-
   </body>
-</html>
-
 </html>
