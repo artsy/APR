@@ -1,104 +1,37 @@
-// NOTE: The contents of this file will only be executed if
-// you uncomment its entry in "assets/js/app.js".
+declare const window: any
 
-// To use Phoenix channels, the first step is to import Socket
-// and connect at the socket path in "lib/web/endpoint.ex":
-import {Socket} from "phoenix"
-
-let socket = new Socket("/socket", {params: {token: window.userToken}})
-
-// When you connect, you'll often need to authenticate the client.
-// For example, imagine you have an authentication plug, `MyAuth`,
-// which authenticates the session and assigns a `:current_user`.
-// If the current user exists you can assign the user's token in
-// the connection for use in the layout.
+// Take the query from the URL ( the #bit ) and maps it to an event from the 
+// socket to pheonix
 //
-// In your "lib/web/router.ex":
-//
-//     pipeline :browser do
-//       ...
-//       plug MyAuth
-//       plug :put_user_token
-//     end
-//
-//     defp put_user_token(conn, _) do
-//       if current_user = conn.assigns[:current_user] do
-//         token = Phoenix.Token.sign(conn, "user socket", current_user.id)
-//         assign(conn, :user_token, token)
-//       else
-//         conn
-//       end
-//     end
-//
-// Now you need to pass this token to JavaScript. You can do so
-// inside a script tag in "lib/web/templates/layout/app.html.eex":
-//
-//     <script>window.userToken = "<%= assigns[:user_token] %>";</script>
-//
-// You will need to verify the user token in the "connect/2" function
-// in "lib/web/channels/user_socket.ex":
-//
-//     def connect(%{"token" => token}, socket) do
-//       # max_age: 1209600 is equivalent to two weeks in seconds
-//       case Phoenix.Token.verify(socket, "user socket", token, max_age: 1209600) do
-//         {:ok, user_id} ->
-//           {:ok, assign(socket, :user, user_id)}
-//         {:error, reason} ->
-//           :error
-//       end
-//     end
-//
-// Finally, pass the token on connect as below. Or remove it
-// from connect if you don't care about authentication.
-
-socket.connect()
-
-// Now that you are connected, you can join channels with a topic:
-let messagesContainer = document.querySelector("#sidebar ol")
-
-let inquiriesChannel = socket.channel("inquiries", {})
-
-inquiriesChannel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
-
-inquiriesChannel.on("artworkinquiryrequest.inquired", payload => {
-
-  if (payload.partner_locations.length && payload.user.location) {
-    // Use the furthest away location
-    let partnerLoc = payload.partner_locations[0]
-    payload.partner_locations.forEach(loc => {
-      if (getDistance(payload.user.location, loc) > getDistance(payload.user.location, partnerLoc)) {
-        partnerLoc = loc
-      }
-    });
-
-    addArc(payload.user.location, partnerLoc)
-
-    const distance =  Math.round(getDistance(payload.user.location, partnerLoc))
-
-    let newItem = document.createElement("li", { class: "news-item"})
-    newItem.innerHTML = `
-      <div class="img" style="background-image: url(${payload.artwork.images[0].image_urls.medium});"></div>
-      <p>
-        <span>${payload.properties.inquireable.name}</span> from <span>${payload.partner.name}</span>.<br/>
-        ${shortDateString(payload.user.location)} ✈ ${shortDateString(partnerLoc)} (${distance}km)
-      </p>
-      `
-
-    messagesContainer.insertBefore(newItem, messagesContainer.firstChild);
+const queryToEvent = (query: string) => {
+  switch (query) {
+    case "purchases":
+      return "purchases"
+  
+    default:
+      return "artworkinquiryrequest.inquired"
   }
-})
+}
 
 const allArcs = []
 
+// From an Artsy Location to a mini summary
 const shortDateString = (loc) => {
-  if (loc.country === "United States") {
+  if(!loc) {
+    return "TBD"
+  }
+  if (loc.country === "United States" && loc.state_code) {
     return `${loc.city}, ${loc.state_code}`
   }
+  // If we just have a city
+  if(!loc.country) {
+    return loc.city 
+  }
+
   return `${loc.city}, ${loc.country}`
 }
 
+// Adds an arc, and caps the amount at 50 on the map
 const addArc = (from, to) => {
   const arcData = {
     origin: {
@@ -119,13 +52,14 @@ const addArc = (from, to) => {
   }
 }
 
-const getDistance = (to, from) => {
-  return getDistanceFromLatLonInKm(from.coordinates.lat, from.coordinates.lng, to.coordinates.lat, to.coordinates.lng)
-}
+
+// Using the lat/long format in the Artsy Location - get the distance as the crow flies
+const getDistance = (to, from) =>  getDistanceFromLatLonInKm(from.coordinates.lat, from.coordinates.lng, to.coordinates.lat, to.coordinates.lng)
+
 
 // https://stackoverflow.com/questions/18883601/function-to-calculate-distance-between-two-coordinates-shows-wrong
-
-function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+//
+const getDistanceFromLatLonInKm = (lat1:number, lon1:number, lat2:number, lon2:number ) => {
   var R = 6371; // Radius of the earth in km
   var dLat = deg2rad(lat2-lat1);  // deg2rad below
   var dLon = deg2rad(lon2-lon1); 
@@ -139,8 +73,98 @@ function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
   return d
 }
 
-function deg2rad(deg) {
+// Needed for above.
+const deg2rad = (deg: number) => {
   return deg * (Math.PI/180)
 }
+
+// To use Phoenix channels, the first step is to import Socket
+// and connect at the socket path in "lib/web/endpoint.ex":
+import {Socket} from "phoenix"
+
+let socket = new Socket("/socket", {params: {token: window.userToken}})
+socket.connect()
+
+// Now that you are connected, you can join channels with a topic:
+let messagesContainer = document.querySelector("#sidebar ol")
+
+// Default to inquiries
+if (document.location.hash === "") {
+  document.location.hash = "#inquiries"
+}
+
+const channel = document.location.hash.substr(1)
+let socketChannel = socket.channel(channel, {})
+
+socketChannel.join()
+  .receive("ok", resp => { console.log("Joined successfully", resp) })
+  .receive("error", resp => { console.log("Unable to join", resp) })
+
+socketChannel.on("artworkinquiryrequest.inquired", payload => {
+
+  if (payload.partner_locations.length && payload.user.location) {
+    // Use the furthest away location
+    let partnerLoc = payload.partner_locations[0]
+    payload.partner_locations.forEach(loc => {
+      if (getDistance(payload.user.location, loc) > getDistance(payload.user.location, partnerLoc)) {
+        partnerLoc = loc
+      }
+    });
+
+    addArc(payload.user.location, partnerLoc)
+
+    const distance =  Math.round(getDistance(payload.user.location, partnerLoc))
+
+    const thumbnail = generateAThumbnail(
+      payload.artwork.images[0].image_urls.medium, 
+      `${payload.properties.inquireable.name}</span> from <span>${payload.partner.name}</span>.`, 
+      `${shortDateString(payload.user.location)} ✈ ${shortDateString(partnerLoc)} (${distance}km)`
+    )
+
+    messagesContainer.insertBefore(thumbnail, messagesContainer.firstChild);
+  }
+})
+
+socketChannel.on("purchases", payload => {
+
+  if (payload.partner_locations.length && payload.user.location) {
+    // Use the furthest away location
+    let partnerLoc = payload.partner_locations[0]
+    payload.partner_locations.forEach(loc => {
+      if (getDistance(payload.user.location, loc) > getDistance(payload.user.location, partnerLoc)) {
+        partnerLoc = loc
+      }
+    });
+
+    addArc(payload.user.location, partnerLoc)
+
+    const distance =  Math.round(getDistance(payload.user.location, partnerLoc))
+
+    const thumbnail = generateAThumbnail(
+      payload.artwork.images[0].image_urls.medium, 
+      `${payload.properties.inquireable.name}</span> from <span>${payload.partner.name}</span>.`, 
+      `${shortDateString(payload.user.location)} ✈ ${shortDateString(partnerLoc)} (${distance}km)`
+    )
+
+    messagesContainer.insertBefore(thumbnail, messagesContainer.firstChild);
+  }
+})
+
+
+/** Generates a sidebar item for an artwork */
+const generateAThumbnail = (imageURL: string, title: string, subtitle: string) => {
+
+  let newItem = document.createElement("li")
+  newItem.className = "news-item"
+  newItem.innerHTML = `
+    <div class="img" style="background-image: url(${imageURL});"></div>
+    <p>
+      ${title}.<br/>
+      ${subtitle}
+    </p>
+    `
+
+    return newItem;
+} 
 
 export default socket
