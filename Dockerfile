@@ -39,7 +39,7 @@ ENV MIX_ENV prod
 RUN mix deps.get
 RUN mix compile
 
-RUN cd assets && npm install && node node_modules/brunch/bin/brunch build --production
+RUN cd assets && npm install && npm run deploy
 RUN mix phx.digest
 
 CMD service nginx start && mix phx.server
