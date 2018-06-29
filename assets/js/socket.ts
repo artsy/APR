@@ -1,13 +1,15 @@
+import map from "./map"
+
 declare const window: any
 
-// Take the query from the URL ( the #bit ) and maps it to an event from the 
-// socket to pheonix
+// Take the query from the URL ( the #bit ) and maps it to an event from the
+// socket to phoenix
 //
 const queryToEvent = (query: string) => {
   switch (query) {
     case "purchases":
       return "purchases"
-  
+
     default:
       return "artworkinquiryrequest.inquired"
   }
@@ -25,7 +27,7 @@ const shortDateString = (loc) => {
   }
   // If we just have a city
   if(!loc.country) {
-    return loc.city 
+    return loc.city
   }
 
   return `${loc.city}, ${loc.country}`
@@ -44,7 +46,7 @@ const addArc = (from, to) => {
     }
   }
   allArcs.push(arcData)
-  window.map.arc(allArcs)
+  map.arc(allArcs)
 
   // cap it at 50
   if (allArcs.length > 50) {
@@ -62,7 +64,7 @@ const getDistance = (to, from) =>  getDistanceFromLatLonInKm(from.coordinates.la
 const getDistanceFromLatLonInKm = (lat1:number, lon1:number, lat2:number, lon2:number ) => {
   var R = 6371; // Radius of the earth in km
   var dLat = deg2rad(lat2-lat1);  // deg2rad below
-  var dLon = deg2rad(lon2-lon1); 
+  var dLon = deg2rad(lon2-lon1);
   var a =
     Math.sin(dLat/2) * Math.sin(dLat/2) +
     Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
@@ -116,7 +118,7 @@ socketChannel.on("artworkinquiryrequest.inquired", payload => {
     const distance =  Math.round(getDistance(payload.user.location, partnerLoc))
 
     const thumbnail = generateAThumbnail(
-      payload.artwork.images[0].image_urls.medium, 
+      payload.artwork.images[0].image_urls.medium,
       `${payload.properties.inquireable.name}</span> from <span>${payload.partner.name}</span>.`, 
       `${shortDateString(payload.user.location)} ✈ ${shortDateString(partnerLoc)} (${distance}km)`
     )
@@ -125,8 +127,7 @@ socketChannel.on("artworkinquiryrequest.inquired", payload => {
   }
 })
 
-socketChannel.on("purchases", payload => {
-
+socketChannel.on("purchase.purchased", payload => {
   if (payload.partner_locations.length && payload.user.location) {
     // Use the furthest away location
     let partnerLoc = payload.partner_locations[0]
@@ -141,8 +142,8 @@ socketChannel.on("purchases", payload => {
     const distance =  Math.round(getDistance(payload.user.location, partnerLoc))
 
     const thumbnail = generateAThumbnail(
-      payload.artwork.images[0].image_urls.medium, 
-      `${payload.properties.inquireable.name}</span> from <span>${payload.partner.name}</span>.`, 
+      payload.artwork.images[0].image_urls.medium,
+      `${payload.properties.inquireable.name}</span> from <span>${payload.properties.partner.name}</span>.`,
       `${shortDateString(payload.user.location)} ✈ ${shortDateString(partnerLoc)} (${distance}km)`
     )
 
@@ -165,6 +166,6 @@ const generateAThumbnail = (imageURL: string, title: string, subtitle: string) =
     `
 
     return newItem;
-} 
+}
 
 export default socket
