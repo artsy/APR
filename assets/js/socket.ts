@@ -1,37 +1,14 @@
+// To use Phoenix channels, the first step is to import Socket
+// and connect at the socket path in "lib/web/endpoint.ex":
+import {Socket} from "phoenix"
+
 import map from "./map"
+import {getDistance, shortDateString} from "./helpers"
 
 declare const window: any
 
-// Take the query from the URL ( the #bit ) and maps it to an event from the
-// socket to phoenix
-//
-const queryToEvent = (query: string) => {
-  switch (query) {
-    case "purchases":
-      return "purchases"
-
-    default:
-      return "artworkinquiryrequest.inquired"
-  }
-}
 
 const allArcs = []
-
-// From an Artsy Location to a mini summary
-const shortDateString = (loc) => {
-  if(!loc) {
-    return "TBD"
-  }
-  if (loc.country === "United States" && loc.state_code) {
-    return `${loc.city}, ${loc.state_code}`
-  }
-  // If we just have a city
-  if(!loc.country) {
-    return loc.city
-  }
-
-  return `${loc.city}, ${loc.country}`
-}
 
 // Adds an arc, and caps the amount at 50 on the map
 const addArc = (from, to, options={}) => {
@@ -56,35 +33,6 @@ const addArc = (from, to, options={}) => {
 }
 
 
-// Using the lat/long format in the Artsy Location - get the distance as the crow flies
-const getDistance = (to, from) =>  getDistanceFromLatLonInKm(from.coordinates.lat, from.coordinates.lng, to.coordinates.lat, to.coordinates.lng)
-
-
-// https://stackoverflow.com/questions/18883601/function-to-calculate-distance-between-two-coordinates-shows-wrong
-//
-const getDistanceFromLatLonInKm = (lat1:number, lon1:number, lat2:number, lon2:number ) => {
-  var R = 6371; // Radius of the earth in km
-  var dLat = deg2rad(lat2-lat1);  // deg2rad below
-  var dLon = deg2rad(lon2-lon1);
-  var a =
-    Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-    Math.sin(dLon/2) * Math.sin(dLon/2)
-    ;
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
-  var d = R * c // Distance in km
-  return d
-}
-
-// Needed for above.
-const deg2rad = (deg: number) => {
-  return deg * (Math.PI/180)
-}
-
-// To use Phoenix channels, the first step is to import Socket
-// and connect at the socket path in "lib/web/endpoint.ex":
-import {Socket} from "phoenix"
-
 let socket = new Socket("/socket", {params: {token: window.userToken}})
 socket.connect()
 
@@ -96,7 +44,23 @@ if (document.location.hash === "") {
   document.location.hash = "#inquiries"
 }
 
-const channel = document.location.hash.substr(1)
+// Take the query from the URL ( the #bit ) and maps it to an event from the
+// socket to phoenix
+//
+const queryToEvent = (query: string) => {
+  switch (query) {
+    case "purchases":
+      purchasesChannel()
+    case "inquiries":
+      inquiriesChannel()
+
+    default:
+      allChannels()
+  }
+}
+
+const channels = queryToEvent(document.location.hash.substr(1))
+
 let socketChannel = socket.channel(channel, {})
 
 socketChannel.join()
