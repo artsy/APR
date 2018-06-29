@@ -137,7 +137,7 @@ socketChannel.on("purchase.purchased", payload => {
       }
     });
 
-    addArc(payload.user.location, partnerLoc)
+    addArc(partnerLoc, payload.user.location)
 
     const distance =  Math.round(getDistance(payload.user.location, partnerLoc))
 
