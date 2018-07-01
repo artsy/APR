@@ -39,5 +39,22 @@ const deg2rad = (deg: number) => {
 export const getDistance = (to, from) =>  getDistanceFromLatLonInKm(from.coordinates.lat, from.coordinates.lng, to.coordinates.lat, to.coordinates.lng)
 
 
+/** Generates a sidebar item for an artwork */
+export const generateAThumbnail = (imageURL: string, title: string, subtitle: string) => {
 
-export default { shortDateString, getDistanceFromLatLonInKm, getDistance }
+  let newItem = document.createElement("li")
+  newItem.className = "news-item"
+  newItem.innerHTML = `
+    <div class="img" style="background-image: url(${imageURL});"></div>
+    <p>
+      ${title}.<br/>
+      ${subtitle}
+    </p>
+    `
+
+    return newItem;
+}
+
+
+
+export default { shortDateString, getDistanceFromLatLonInKm, getDistance, generateAThumbnail }
