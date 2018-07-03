@@ -24,7 +24,7 @@ export const addArc = (map, allArcs, from, to, options={}) => {
 }
 
 export const initMap = (mapElementId) => {
-  new Datamap({
+  return new Datamap({
     element: document.getElementById(mapElementId),
     projection: "mercator",
     bubblesConfig: {
