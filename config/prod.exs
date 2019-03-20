@@ -16,6 +16,7 @@ use Mix.Config
 config :apr, AprWeb.Endpoint,
   load_from_system_env: true,
   url: [host: System.get_env("APR_HOST") || "apr.artsy.net", port: 80],
+  force_ssl: [hsts: true],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
