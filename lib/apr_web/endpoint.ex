@@ -1,7 +1,8 @@
 defmodule AprWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :apr
 
-  socket "/socket", AprWeb.FeedSocket
+  socket "/socket", AprWeb.FeedSocket,
+    websocket: true
 
   # Serve at "/" the static files from "priv/static" directory.
   #

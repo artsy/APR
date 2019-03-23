@@ -10,8 +10,8 @@
     <title>APR: Artsy Private Radio!</title>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
-    <link rel="icon" href="<%= static_path(@conn, "/favicon.ico") %>">
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>">
+    <link rel="icon" href="<%= Routes.static_path(@conn, "/favicon.ico") %>">
   </head>
 
   <body>
@@ -30,7 +30,7 @@
       </main>
 
     </div> <!-- /container -->
-    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <script src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
     <style>
       * {
         box-sizing: 'border-box';
@@ -92,6 +92,6 @@
   </head>
   <body>
 
-  <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  <script src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

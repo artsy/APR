@@ -21,7 +21,7 @@ defmodule AprWeb do
     quote do
       use Phoenix.Controller, namespace: AprWeb
       import Plug.Conn
-      import AprWeb.Router.Helpers
+      alias AppWeb.Router.Helpers, as: Routes
       import AprWeb.Gettext
     end
   end
